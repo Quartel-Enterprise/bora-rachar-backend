@@ -1,0 +1,198 @@
+openapi: 3.0.0
+info:
+  title: bora-rachar-service
+  description: servico responsavel por prover dados para o app bora-rachar
+  version: 1.0.0
+servers:
+  - url: http://api.example.com/v1
+paths:
+  /usuarios:
+    get:
+      tags:
+        - Usuarios
+      summary: retorna usuarios.
+      parameters:
+        - $ref: '#/components/parameters/email-header'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Usuario'
+    put:
+      tags:
+        - Usuarios
+      summary: cria ou altera usuario.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioRequestBody'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Usuario'
+  /grupos:
+    get:
+      tags:
+        - Grupos
+      summary: retorna grupos.
+      parameters:
+         - $ref: '#/components/parameters/id-grupo-query'
+      responses:
+        '200':
+          description: ok
+          content: 
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/GrupoResponse'
+    post:
+      tags:
+        - Grupos
+      summary: cria um grupo.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GrupoRequestBody'
+      responses:
+        '200':
+          description: ok
+     
+  /grupos/{idGrupo}:
+    put:
+      tags:
+        - Grupos
+      summary: altera configuracoes de um grupo.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GrupoRequestBody'
+      responses:
+        '200':    # status code
+          description: A JSON array of user names
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Grupo'
+  /despesas:
+    get:
+      tags:
+        - Despesas
+      summary: retorna despesas.
+      parameters:
+        - $ref: '#/components/parameters/id-grupo-query'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/DespesasResponse'
+    post:
+      tags:
+        - Despesas
+      summary: cria uma despesa.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DespesasRequestBody'
+      responses:
+        '200':
+          description: ok
+
+  /despesas/{idDespesa}:
+    put:
+      tags:
+        - Despesas
+      summary: altera configuracoes de uma despesas.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DespesasRequestBody'
+      responses:
+        '200':
+          description: ok
+
+
+components:
+  schemas:
+    UsuarioRequestBody:
+      allOf:
+        - $ref: "#/components/schemas/Usuario"
+    Usuario:
+      properties:
+        nome:
+          type: string
+        email:
+          type: string
+    GrupoResponse:
+      properties:
+        id:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/Grupo'
+    GrupoRequestBody:
+      allOf:
+        - $ref: '#/components/schemas/Grupo'
+    Grupo:
+      properties:
+        nome:
+          type: string
+        imagem:
+          type: string
+        cododigoAcesso:
+          type: string
+        criadoPor:
+          type: string
+        dataCriacao:
+          type: string
+          format: date-time
+    DespesasRequestBody:
+      allOf:
+        - $ref: '#/components/schemas/Despesas'
+    DespesasResponse:
+      properties:
+        id:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/Despesas'
+    Despesas:
+      properties:
+        descricao:
+          type: string
+        categoria:
+          type: string
+
+  parameters:
+    id-grupo-query:
+      in: query
+      name: idGrupo
+      required: false
+      schema:
+        type: string
+      description: identificador de um grupo
+    email-header:
+      in: header
+      name: email
+      required: false
+      schema:
+        type: string
+    
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+security:
+  - BasicAuth: []
