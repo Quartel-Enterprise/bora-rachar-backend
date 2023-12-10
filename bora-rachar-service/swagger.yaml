@@ -6,6 +6,121 @@ info:
 servers:
   - url: http://api.example.com/v1
 paths:
+  /screens/activities:
+    get:
+      tags:
+        - Screens
+      description: ""
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivitiesScreenResponse'
+
+  /screens/groups:
+    get:
+      tags:
+        - Screens
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupsScreenResponse'
+    post:
+      tags:
+        - Screens
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupsScreenRequestBody'
+      responses:
+        '201':
+          description: "Created"
+
+  /screens/groups/{groupId}:
+    get:
+      tags:
+        - Screens
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+        - in: path
+          name: idGrupo
+          required: true
+          schema:
+            type: string
+            example: "groupId"
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupDetailsScreenResponse'
+
+  /screens/expenses:
+    post:
+      tags:
+        - Screens
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExpenseScreenRequestBody'
+      responses:
+        '201':
+          description: Created
+
+  /screens/expenses/{expenseId}:
+    put:
+      tags:
+        - Screens
+      parameters:
+        - in: path
+          name: expenseId
+          required: true
+          schema:
+            type: string
+            example: "expenseId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExpenseScreenRequestBody'
+      responses:
+        '200':
+          description: ok
+  /screens/contacts:
+    get:
+      tags:
+        - Screens
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactsScreenResponse'
+    post:
+      tags:
+        - Screens
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactsScreenRequestBody'
+      responses:
+        '201':
+          description: Created
+
 #  /usuarios:
 #    get:
 #      tags:
@@ -234,74 +349,6 @@ paths:
 #        '200':
 #          description: ok
 
-  /screens/activities:
-    get:
-      tags:
-        - Telas
-      description: ""
-      parameters:
-        - $ref: '#/components/parameters/page'
-        - $ref: '#/components/parameters/limit'
-      responses:
-        '200':
-          description: ok
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ActivitiesScreenResponse'
-
-  /screens/groups:
-    get:
-      tags:
-        - Telas
-      responses:
-        '200':
-          description: ok
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GroupsScreenResponse'
-
-  /telas/grupos/{idGrupo}:
-    get:
-      tags:
-        - Telas
-      parameters:
-        - $ref: '#/components/parameters/page'
-        - $ref: '#/components/parameters/limit'
-      responses:
-        '200':
-          description: ok
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GroupDetailsScreenResponse'
-
-  /telas/despesas:
-    post:
-      tags:
-        - Telas
-      responses:
-        '200':
-          description: ok
-
-
-  /telas/despesas/{idDespesa}:
-    put:
-      tags:
-        - Telas
-      responses:
-        '200':
-          description: ok
-  /telas/contatos:
-    get:
-      tags:
-        - Telas
-      responses:
-        '200':
-          description: ok
-    #filtro usuario
-
 components:
   schemas:
     Pagination:
@@ -339,13 +386,19 @@ components:
           example: "Thiago D."
         userId:
           type: string
-          example: "Thiago D."
+          example: "userId"
         userPhoto:
           type: string
           example: "url"
+        groupId:
+          type: string
+          example: "groupId"
         groupName:
           type: string
           example: "Quartel Otaku"
+        groupPhoto:
+          type: string
+          example: "url"
         value:
           type: number
           example: 15.68
@@ -360,6 +413,20 @@ components:
         amountToReceive:
           type: number
           example: 250
+    GroupsScreenRequestBody:
+      properties:
+        groupName:
+          type: string
+          example: "Quartel Otaku"
+        groupPhoto:
+          type: string
+          example: "link"
+        participants:
+          type: array
+          items:
+            properties:
+              email:
+                type: string
     GroupsScreenResponse:
       properties:
         balance:
@@ -477,6 +544,9 @@ components:
               balance:
                 type: number
                 example: 19.80
+              isDebtSetted:
+                type: boolean
+                example: true
         commentary:
           properties:
             userId:
@@ -544,6 +614,64 @@ components:
                   value:
                     type: number
                     example: 19.80
+    ExpenseScreenRequestBody:
+      properties:
+        name:
+          type: string
+          example: "Uber para escalada"
+        description:
+          type: string
+          example: "informacao mais detalhada sobre o gasto"
+        value:
+          type: number
+          example: 15.49
+        payers:
+          type: array
+          items:
+            properties:
+              userId:
+                type: string
+                example: "userId"
+              value:
+                type: string
+                example: 15.69
+        participants:
+          type: array
+          items:
+            properties:
+              userId:
+                type: string
+                example: "userId"
+              value:
+                type: string
+                example: 15.69
+    ContactsScreenResponse:
+        properties:
+          contacts:
+            type: array
+            items:
+              properties:
+                id:
+                  type: string
+                  example: "userId"
+                name:
+                  type: string
+                  example: "Arrighi"
+                email:
+                  type: string
+                  example: "arrighi@gmail.com"
+                value:
+                  type: number
+                  example: 14.99
+    ContactsScreenRequestBody:
+      properties:
+        contacts:
+          type: array
+          items:
+            properties:
+              email:
+                type: string
+                example: "email@gmail.com"
 
   #    UsuarioRequestBody:
 #      allOf:
