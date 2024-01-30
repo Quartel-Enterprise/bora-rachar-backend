@@ -6,14 +6,32 @@ info:
 servers:
   - url: http://api.example.com/v1
 paths:
+  /screen/login:
+    post:
+      tags:
+        - Screens
+      description: "login endpoint"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequestBody'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfoLoginResponse'
+
   /screens/activities:
     get:
       tags:
         - Screens
-      description: ""
       parameters:
         - $ref: '#/components/parameters/page'
         - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/user-id-header'
       responses:
         '200':
           description: ok
@@ -26,6 +44,8 @@ paths:
     get:
       tags:
         - Screens
+      parameters:
+        - $ref: '#/components/parameters/user-id-header'
       responses:
         '200':
           description: ok
@@ -36,6 +56,8 @@ paths:
     post:
       tags:
         - Screens
+      parameters:
+        - $ref: '#/components/parameters/user-id-header'
       requestBody:
         content:
           application/json:
@@ -43,7 +65,7 @@ paths:
               $ref: '#/components/schemas/GroupsScreenRequestBody'
       responses:
         '201':
-          description: "Created"
+          description: "created"
 
   /screens/groups/{groupId}:
     get:
@@ -52,8 +74,9 @@ paths:
       parameters:
         - $ref: '#/components/parameters/page'
         - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/user-id-header'
         - in: path
-          name: idGrupo
+          name: groupId
           required: true
           schema:
             type: string
@@ -70,6 +93,8 @@ paths:
     post:
       tags:
         - Screens
+      parameters:
+        - $ref: '#/components/parameters/user-id-header'
       requestBody:
         content:
           application/json:
@@ -84,6 +109,7 @@ paths:
       tags:
         - Screens
       parameters:
+        - $ref: '#/components/parameters/user-id-header'
         - in: path
           name: expenseId
           required: true
@@ -98,10 +124,39 @@ paths:
       responses:
         '200':
           description: ok
+    delete:
+      tags:
+        - Screens
+      parameters:
+        - $ref: '#/components/parameters/user-id-header'
+        - in: path
+          name: expenseId
+          required: true
+          schema:
+            type: string
+            example: "expenseId"
+      responses:
+        '200':
+          description: ok
+
   /screens/contacts:
     get:
       tags:
         - Screens
+      parameters:
+        - $ref: '#/components/parameters/user-id-header'
+        - in: header
+          name: access-code
+          required: true
+          schema:
+            type: string
+            example: "code"
+        - in: header
+          name: refresh-token
+          required: true
+          schema:
+            type: string
+            example: "refresh-token"
       responses:
         '200':
           description: ok
@@ -112,6 +167,20 @@ paths:
     post:
       tags:
         - Screens
+      parameters:
+        - $ref: '#/components/parameters/user-id-header'
+        - in: header
+          name: access-code
+          required: true
+          schema:
+            type: string
+            example: "code"
+        - in: header
+          name: refresh-token
+          required: true
+          schema:
+            type: string
+            example: "refresh-token"
       requestBody:
         content:
           application/json:
@@ -120,234 +189,18 @@ paths:
       responses:
         '201':
           description: Created
-
-#  /usuarios:
-#    get:
-#      tags:
-#        - Usuarios
-#      summary: retorna usuarios.
-#      parameters:
-#        - $ref: '#/components/parameters/email-header'
-#      responses:
-#        '200':
-#          description: ok
-#          content:
-#            application/json:
-#              schema:
-#                items:
-#                  $ref: '#/components/schemas/Usuario'
-#    post:
-#      tags:
-#        - Usuarios
-#      responses:
-#        '200':
-#          description: ok
-#  /usuarios/{idUsuario}:
-#    get:
-#      tags:
-#        - Usuarios
-#      responses:
-#        '200':
-#          description: ok
-#    put:
-#      tags:
-#        - Usuarios
-#      summary: cria ou altera usuario.
-#      requestBody:
-#        content:
-#          application/json:
-#            schema:
-#              $ref: '#/components/schemas/UsuarioRequestBody'
-#      responses:
-#        '200':
-#          description: ok
-#          content:
-#            application/json:
-#              schema:
-#                items:
-#                  $ref: '#/components/schemas/Usuario'
-#    delete:
-#      tags:
-#        - Usuarios
-#      responses:
-#        '200':
-#          description: ok
-#
-#  /usuarios/{idUsuario}/despesas/consolidacoes:
-#    get:
-#      tags:
-#        - Usuarios
-#      responses:
-#        '200':
-#          description: ok
-#
-#  /grupos:
-#    get:
-#      tags:
-#        - Grupos
-#      summary: retorna grupos.
-#      parameters:
-#         - $ref: '#/components/parameters/id-grupo-query'
-#      responses:
-#        '200':
-#          description: ok
-#          content:
-#            application/json:
-#              schema:
-#                items:
-#                  $ref: '#/components/schemas/GrupoResponse'
-#    post:
-#      tags:
-#        - Grupos
-#      summary: cria um grupo.
-#      requestBody:
-#        content:
-#          application/json:
-#            schema:
-#              $ref: '#/components/schemas/GrupoRequestBody'
-#      responses:
-#        '200':
-#          description: ok
-#
-#  /grupos/{idGrupo}:
-#    get:
-#      tags:
-#        - Grupos
-#      responses:
-#        '200':
-#          description: ok
-#    put:
-#      tags:
-#        - Grupos
-#      summary: altera configuracoes de um grupo.
-#      requestBody:
-#        content:
-#          application/json:
-#            schema:
-#              $ref: '#/components/schemas/GrupoRequestBody'
-#      responses:
-#        '200':    # status code
-#          description: A JSON array of user names
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Grupo'
-#    delete:
-#      tags:
-#        - Grupos
-#      responses:
-#        '200':
-#          description: ok
-#  /despesas:
-#    get:
-#      tags:
-#        - Despesas
-#      summary: retorna despesas.
-#      parameters:
-#        - $ref: '#/components/parameters/id-grupo-query'
-#      responses:
-#        '200':
-#          description: ok
-#          content:
-#            application/json:
-#              schema:
-#                items:
-#                  $ref: '#/components/schemas/DespesasResponse'
-#    post:
-#      tags:
-#        - Despesas
-#      summary: cria uma despesa.
-#      requestBody:
-#        content:
-#          application/json:
-#            schema:
-#              $ref: '#/components/schemas/DespesasRequestBody'
-#      responses:
-#        '200':
-#          description: ok
-#  /despesas/{idDespesa}:
-#    get:
-#      tags:
-#        - Despesas
-#      responses:
-#        '200':
-#          description: ok
-#    put:
-#      tags:
-#        - Despesas
-#      summary: altera configuracoes de uma despesas.
-#      requestBody:
-#        content:
-#          application/json:
-#            schema:
-#              $ref: '#/components/schemas/DespesasRequestBody'
-#      responses:
-#        '200':
-#          description: ok
-#    delete:
-#      tags:
-#        - Despesas
-#      responses:
-#        '200':
-#          description: ok
-#
-#
-#  /despesas/{idDespesa}/comentarios:
-#    get:
-#      tags:
-#        - Despesas
-#      responses:
-#        '200':
-#          description: ok
-#    post:
-#      tags:
-#        - Despesas
-#      responses:
-#        '200':
-#          description: ok
-#
-#  /despesas/{idDespesa}/comentarios/{idComentario}:
-#    put:
-#      tags:
-#        - Despesas
-#      responses:
-#        '200':
-#          description: ok
-#    delete:
-#      tags:
-#        - Despesas
-#      responses:
-#        '200':
-#          description: ok
-#
-#  /despesas/{idDespesa}/divisoes-pagamento:
-#    get:
-#      tags:
-#        - Despesas
-#      responses:
-#        '200':
-#          description: ok
-#    put:
-#      tags:
-#        - Despesas
-#      responses:
-#        '200':
-#          description: ok
-#    delete:
-#      tags:
-#        - Despesas
-#      responses:
-#        '200':
-#          description: ok
-#
-#
-#  /telas/login:
-#    post:
-#      tags:
-#        - Telas
-#      responses:
-#        '200':
-#          description: ok
+  /screens/groups/{groupId}/commentary:
+    post:
+      tags:
+        - Screens
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExpenseCommentRequestBody'
+      responses:
+        '200':
+          description: ok
 
 components:
   schemas:
@@ -362,6 +215,19 @@ components:
         totalPages:
           type: number
           example: 7
+    LoginRequestBody:
+      properties:
+        code:
+          type: string
+          description: "access token that grants access to that API"
+    InfoLoginResponse:
+      properties:
+        access_token:
+          type: string
+        refresh_token:
+          type: string
+        userId:
+          type: string
     ActivitiesScreenResponse:
       properties:
         meta:
@@ -415,10 +281,10 @@ components:
           example: 250
     GroupsScreenRequestBody:
       properties:
-        groupName:
+        name:
           type: string
           example: "Quartel Otaku"
-        groupPhoto:
+        photo:
           type: string
           example: "link"
         participants:
@@ -473,13 +339,13 @@ components:
           $ref: '#/components/schemas/Pagination'
         groupInfo:
           properties:
-            groupId:
+            id:
               type: string
               example: "id"
-            groupName:
+            name:
               type: string
               example: "Quartel Otaku"
-            groupPhoto:
+            photo:
               type: string
               example: "link"
             participants:
@@ -503,13 +369,13 @@ components:
             $ref: '#/components/schemas/GroupDetailsScreenExpense'
     GroupDetailsScreenExpense:
       properties:
-        expenseId:
+        id:
           type: string
           example: "expenseID"
-        expensePhoto:
+        photo:
           type: string
           example: "link"
-        expenseDescription:
+        description:
           type: string
           example: "Uber volta da escalada"
         category:
@@ -548,22 +414,24 @@ components:
                 type: boolean
                 example: true
         commentary:
-          properties:
-            userId:
-              type: string
-              example: "userId"
-            userName:
-              type: string
-              example: "Pierre"
-            userPhoto:
-              type: string
-              example: "link"
-            commentary:
-              type: string
-              example: "vou pagar nao hehe"
-            date:
-              type: string
-              format: date-time
+          type: array
+          items:
+            properties:
+              userId:
+                type: string
+                example: "userId"
+              userName:
+                type: string
+                example: "Pierre"
+              userPhoto:
+                type: string
+                example: "link"
+              commentary:
+                type: string
+                example: "vou pagar nao hehe"
+              date:
+                type: string
+                format: date-time
     ExpenseCategory:
       type: string
       enum:
@@ -614,7 +482,30 @@ components:
                   value:
                     type: number
                     example: 19.80
+    ExpenseCommentRequestBody:
+      properties:
+        userId:
+          type: string
+          example: "userId"
+        userName:
+          type: string
+          example: "Pierre"
+        userPhoto:
+          type: string
+          example: "link"
+        commentary:
+          type: string
+          example: "vou pagar nao hehe"
+        date:
+          type: string
+          format: date-time
+
     ExpenseScreenRequestBody:
+      required:
+        - name
+        - value
+        - payers
+        - participants
       properties:
         name:
           type: string
@@ -622,6 +513,8 @@ components:
         description:
           type: string
           example: "informacao mais detalhada sobre o gasto"
+        category:
+          $ref: '#/components/schemas/ExpenseCategory'
         value:
           type: number
           example: 15.49
@@ -660,6 +553,9 @@ components:
                 email:
                   type: string
                   example: "arrighi@gmail.com"
+                telefone:
+                  type: string
+                  example: "+5538999999999"
                 value:
                   type: number
                   example: 14.99
@@ -672,53 +568,9 @@ components:
               email:
                 type: string
                 example: "email@gmail.com"
-
-  #    UsuarioRequestBody:
-#      allOf:
-#        - $ref: "#/components/schemas/Usuario"
-#    Usuario:
-#      properties:
-#        nome:
-#          type: string
-#        email:
-#          type: string
-#    GrupoResponse:
-#      properties:
-#        id:
-#          type: string
-#      allOf:
-#        - $ref: '#/components/schemas/Grupo'
-#    GrupoRequestBody:
-#      allOf:
-#        - $ref: '#/components/schemas/Grupo'
-#    Grupo:
-#      properties:
-#        nome:
-#          type: string
-#        imagem:
-#          type: string
-#        cododigoAcesso:
-#          type: string
-#        criadoPor:
-#          type: string
-#        dataCriacao:
-#          type: string
-#          format: date-time
-#    DespesasRequestBody:
-#      allOf:
-#        - $ref: '#/components/schemas/Despesas'
-#    DespesasResponse:
-#      properties:
-#        id:
-#          type: string
-#      allOf:
-#        - $ref: '#/components/schemas/Despesas'
-#    Despesas:
-#      properties:
-#        descricao:
-#          type: string
-#        categoria:
-#          type: string
+              telefone:
+                type: string
+                example: "+5538999999999"
 
   parameters:
     limit:
@@ -733,17 +585,10 @@ components:
       name: page
       schema:
         type: integer
-    id-grupo-query:
-      in: query
-      name: idGrupo
-      required: false
-      schema:
-        type: string
-      description: identificador de um grupo
-    email-header:
+    user-id-header:
       in: header
-      name: email
-      required: false
+      name: userId
+      required: true
       schema:
         type: string
     
