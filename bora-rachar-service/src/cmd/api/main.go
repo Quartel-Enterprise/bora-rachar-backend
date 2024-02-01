@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/Quartel-Enterprise/Backend/bora-rachar-service/src/cmd/generated-code"
-	"github.com/Quartel-Enterprise/Backend/bora-rachar-service/src/internal/infra/database"
+	"github.com/Quartel-Enterprise/Backend/bora-rachar-service/src/internal/infra/repository"
 	"log"
 	"net/http"
 	"os"
@@ -13,7 +13,7 @@ import (
 var MYSLQ *sql.DB
 
 func init() {
-	config := database.GetConfig()
+	config := repository.GetConfig()
 	db, err := sql.Open("mysql", config.FormatDSN())
 
 	if err != nil {
