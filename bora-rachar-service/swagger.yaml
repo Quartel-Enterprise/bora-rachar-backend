@@ -193,6 +193,13 @@ paths:
     post:
       tags:
         - Screens
+      parameters:
+        - in: path
+          name: groupId
+          required: true
+          schema:
+            type: string
+            example: "groupId"
       requestBody:
         content:
           application/json:
