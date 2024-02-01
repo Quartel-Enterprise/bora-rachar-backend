@@ -1,7 +1,13 @@
 package main
 
-import "fmt"
+import (
+	"github.com/Quartel-Enterprise/Backend/bora-rachar-service/src/cmd/generated-code"
+	"net/http"
+)
 
 func main() {
-	fmt.Printf("Hello otaku")
+	s := BoraRacharServer{}
+	h := generated.Handler(s)
+
+	http.ListenAndServe(":8080", h)
 }
