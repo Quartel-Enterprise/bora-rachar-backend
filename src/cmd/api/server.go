@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/Quartel-Enterprise/Backend/bora-rachar-service/src/cmd/generated-code"
+	"github.com/Quartel-Enterprise/bora-rachar-backend/src/cmd/generated-code"
 	"net/http"
 )
 

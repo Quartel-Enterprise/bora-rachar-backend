@@ -6,7 +6,7 @@ services:
     env_file:
       - .env
     build:
-      context: .
+      context: bora-rachar-service
       args:
         - MYSQL_DATABASE=${MYSQL_DATABASE}
         - MYSQL_USER=${MYSQL_USER}

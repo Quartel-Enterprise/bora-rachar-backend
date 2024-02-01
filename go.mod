@@ -1,4 +1,4 @@
-module github.com/Quartel-Enterprise/Backend/bora-rachar-service
+module github.com/Quartel-Enterprise/bora-rachar-backend
 
 go 1.20
 

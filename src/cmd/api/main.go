@@ -3,8 +3,8 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"github.com/Quartel-Enterprise/Backend/bora-rachar-service/src/cmd/generated-code"
-	"github.com/Quartel-Enterprise/Backend/bora-rachar-service/src/internal/infra/repository"
+	"github.com/Quartel-Enterprise/bora-rachar-backend/src/cmd/generated-code"
+	"github.com/Quartel-Enterprise/bora-rachar-backend/src/internal/infra/repository"
 	"log"
 	"net/http"
 	"os"
