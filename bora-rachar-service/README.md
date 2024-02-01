@@ -4,7 +4,8 @@ Microsservico responsável por fornecer informações para o app "bora-rachar"
 
 comando para subir banco de dados local utilizando docker:  
 ```
-docker-compose down -v ; docker-compose up -
+docker-compose down -v
+docker-compose up -d
 ```
 
 caso alguma mudaça seja feita é necessario gerar gerar novamente as structs e services do swagger
