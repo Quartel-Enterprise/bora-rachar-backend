@@ -1,0 +1,19 @@
+version: '3.3'
+
+services:
+  mysql:
+    image: mysql:latest
+    env_file:
+      - .env
+    build:
+      context: bora-rachar-service
+      args:
+        - MYSQL_DATABASE=${MYSQL_DATABASE}
+        - MYSQL_USER=${MYSQL_USER}
+        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - "./resource/database-setup.sql:/docker-entrypoint-initdb.d/a-database-setup.sql"
+      - "./resource/data.sql:/docker-entrypoint-initdb.d/b-data.sql"
+    ports:
+      - "${MYSQL_PORT}:3306"
