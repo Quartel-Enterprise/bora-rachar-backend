@@ -189,17 +189,17 @@ paths:
       responses:
         '201':
           description: Created
-  /screens/groups/{groupId}/commentary:
+  /screens/groups/{expenseId}/commentary:
     post:
       tags:
         - Screens
       parameters:
         - in: path
-          name: groupId
+          name: expenseId
           required: true
           schema:
             type: string
-            example: "groupId"
+            example: "expenseId"
       requestBody:
         content:
           application/json:
@@ -490,16 +490,13 @@ components:
                     type: number
                     example: 19.80
     ExpenseCommentRequestBody:
+      required:
+        - userId
+        - commentary
       properties:
         userId:
           type: string
           example: "userId"
-        userName:
-          type: string
-          example: "Pierre"
-        userPhoto:
-          type: string
-          example: "link"
         commentary:
           type: string
           example: "vou pagar nao hehe"

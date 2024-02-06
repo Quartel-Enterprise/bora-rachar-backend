@@ -3,15 +3,16 @@ package repository
 import (
 	"database/sql"
 	"math/big"
+	"time"
 )
 
 type User struct {
 	id        string
 	userId    string
-	name      sql.NullString
-	email     sql.NullString
+	name      string
+	email     string
 	pixKey    sql.NullString
-	createdAt sql.NullTime
+	createdAt time.Time
 	updatedAt sql.NullTime
 	deletedAt sql.NullTime
 }
@@ -21,7 +22,7 @@ type GroupParticipant struct {
 	userId        string
 	groupId       string
 	isAdmin       bool
-	admissionDate sql.NullTime
+	admissionDate time.Time
 	removedAt     sql.NullTime
 }
 
@@ -29,16 +30,16 @@ type GroupSolicitation struct {
 	id        string
 	userId    string
 	groupId   string
-	createdAt sql.NullTime
+	createdAt time.Time
 }
 
 type Group struct {
 	id         string
-	name       sql.NullString
-	avatar     sql.NullString
-	accessCode sql.NullString
-	createdBy  sql.NullString
-	createdAt  sql.NullTime
+	name       string
+	avatar     string
+	accessCode string
+	createdBy  string
+	createdAt  time.Time
 	updatedAt  sql.NullTime
 	deletedAt  sql.NullTime
 }
@@ -49,7 +50,7 @@ type ExpensePaymentSplit struct {
 	expenseId       string
 	value           big.Float
 	transactionType string
-	createdAt       sql.NullTime
+	createdAt       time.Time
 	isDebtSettled   bool
 }
 
@@ -57,8 +58,8 @@ type ExpenseCommentary struct {
 	id         string
 	userId     string
 	expenseId  string
-	commentary sql.NullString
-	createdAt  sql.NullTime
+	commentary string
+	createdAt  time.Time
 	updatedAt  sql.NullTime
 	deletedAt  sql.NullTime
 }
@@ -66,14 +67,14 @@ type ExpenseCommentary struct {
 type Expense struct {
 	id          string
 	groupId     string
-	title       sql.NullString
-	description sql.NullString
-	category    sql.NullString
-	avatar      sql.NullString
+	title       string
+	description string
+	category    string
+	avatar      string
 	value       big.Float
-	expenseDate sql.NullTime
-	createdBy   sql.NullString
-	createdAt   sql.NullTime
+	expenseDate time.Time
+	createdBy   string
+	createdAt   time.Time
 	updatedAt   sql.NullTime
 	deletedAt   sql.NullTime
 }

@@ -57,7 +57,7 @@ func (_ BoraRacharServer) GetScreensGroupsGroupId(w http.ResponseWriter, r *http
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// PostScreensGroupsGroupIdCommentary (POST /screens/groups/{groupId}/commentary)
-func (_ BoraRacharServer) PostScreensGroupsGroupIdCommentary(w http.ResponseWriter, r *http.Request, groupId string) {
+// PostScreensGroupsExpenseIdCommentary PostScreensGroupsGroupIdCommentary (POST /screens/groups/{expenseId}/commentary)
+func (_ BoraRacharServer) PostScreensGroupsExpenseIdCommentary(w http.ResponseWriter, r *http.Request, expenseId string) {
 	w.WriteHeader(http.StatusNotImplemented)
 }

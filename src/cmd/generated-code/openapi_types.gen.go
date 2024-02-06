@@ -283,9 +283,6 @@ type GetScreensGroupsGroupIdParams struct {
 	UserId UserIdHeader `json:"userId"`
 }
 
-// PostScreensLoginJSONRequestBody defines body for PostScreensLogin for application/json ContentType.
-type PostScreensLoginJSONRequestBody = LoginRequestBody
-
 // PostScreensContactsJSONRequestBody defines body for PostScreensContacts for application/json ContentType.
 type PostScreensContactsJSONRequestBody = ContactsScreenRequestBody
 
@@ -298,5 +295,8 @@ type PutScreensExpensesExpenseIdJSONRequestBody = ExpenseScreenRequestBody
 // PostScreensGroupsJSONRequestBody defines body for PostScreensGroups for application/json ContentType.
 type PostScreensGroupsJSONRequestBody = GroupsScreenRequestBody
 
-// PostScreensGroupsGroupIdCommentaryJSONRequestBody defines body for PostScreensGroupsGroupIdCommentary for application/json ContentType.
-type PostScreensGroupsGroupIdCommentaryJSONRequestBody = ExpenseCommentRequestBody
+// PostScreensGroupsExpenseIdCommentaryJSONRequestBody defines body for PostScreensGroupsExpenseIdCommentary for application/json ContentType.
+type PostScreensGroupsExpenseIdCommentaryJSONRequestBody = ExpenseCommentRequestBody
+
+// PostScreensLoginJSONRequestBody defines body for PostScreensLogin for application/json ContentType.
+type PostScreensLoginJSONRequestBody = LoginRequestBody

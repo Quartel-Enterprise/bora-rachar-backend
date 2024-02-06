@@ -15,9 +15,6 @@ import (
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
 
-	// (POST /screen/login)
-	PostScreensLogin(w http.ResponseWriter, r *http.Request)
-
 	// (GET /screens/activities)
 	GetScreensActivities(w http.ResponseWriter, r *http.Request, params GetScreensActivitiesParams)
 
@@ -42,21 +39,19 @@ type ServerInterface interface {
 	// (POST /screens/groups)
 	PostScreensGroups(w http.ResponseWriter, r *http.Request, params PostScreensGroupsParams)
 
+	// (POST /screens/groups/{expenseId}/commentary)
+	PostScreensGroupsExpenseIdCommentary(w http.ResponseWriter, r *http.Request, expenseId string)
+
 	// (GET /screens/groups/{groupId})
 	GetScreensGroupsGroupId(w http.ResponseWriter, r *http.Request, groupId string, params GetScreensGroupsGroupIdParams)
 
-	// (POST /screens/groups/{groupId}/commentary)
-	PostScreensGroupsGroupIdCommentary(w http.ResponseWriter, r *http.Request, groupId string)
+	// (POST /screens/login)
+	PostScreensLogin(w http.ResponseWriter, r *http.Request)
 }
 
 // Unimplemented server implementation that returns http.StatusNotImplemented for each endpoint.
 
 type Unimplemented struct{}
-
-// (POST /screen/login)
-func (_ Unimplemented) PostScreensLogin(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
 
 // (GET /screens/activities)
 func (_ Unimplemented) GetScreensActivities(w http.ResponseWriter, r *http.Request, params GetScreensActivitiesParams) {
@@ -98,13 +93,18 @@ func (_ Unimplemented) PostScreensGroups(w http.ResponseWriter, r *http.Request,
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
+// (POST /screens/groups/{expenseId}/commentary)
+func (_ Unimplemented) PostScreensGroupsExpenseIdCommentary(w http.ResponseWriter, r *http.Request, expenseId string) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
 // (GET /screens/groups/{groupId})
 func (_ Unimplemented) GetScreensGroupsGroupId(w http.ResponseWriter, r *http.Request, groupId string, params GetScreensGroupsGroupIdParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// (POST /screens/groups/{groupId}/commentary)
-func (_ Unimplemented) PostScreensGroupsGroupIdCommentary(w http.ResponseWriter, r *http.Request, groupId string) {
+// (POST /screens/login)
+func (_ Unimplemented) PostScreensLogin(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -116,23 +116,6 @@ type ServerInterfaceWrapper struct {
 }
 
 type MiddlewareFunc func(http.Handler) http.Handler
-
-// PostScreensLogin operation middleware
-func (siw *ServerInterfaceWrapper) PostScreensLogin(w http.ResponseWriter, r *http.Request) {
-	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, BasicAuthScopes, []string{})
-
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PostScreensLogin(w, r)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r.WithContext(ctx))
-}
 
 // GetScreensActivities operation middleware
 func (siw *ServerInterfaceWrapper) GetScreensActivities(w http.ResponseWriter, r *http.Request) {
@@ -650,6 +633,34 @@ func (siw *ServerInterfaceWrapper) PostScreensGroups(w http.ResponseWriter, r *h
 	handler.ServeHTTP(w, r.WithContext(ctx))
 }
 
+// PostScreensGroupsExpenseIdCommentary operation middleware
+func (siw *ServerInterfaceWrapper) PostScreensGroupsExpenseIdCommentary(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	var err error
+
+	// ------------- Path parameter "expenseId" -------------
+	var expenseId string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "expenseId", chi.URLParam(r, "expenseId"), &expenseId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "expenseId", Err: err})
+		return
+	}
+
+	ctx = context.WithValue(ctx, BasicAuthScopes, []string{})
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.PostScreensGroupsExpenseIdCommentary(w, r, expenseId)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r.WithContext(ctx))
+}
+
 // GetScreensGroupsGroupId operation middleware
 func (siw *ServerInterfaceWrapper) GetScreensGroupsGroupId(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
@@ -736,25 +747,14 @@ func (siw *ServerInterfaceWrapper) GetScreensGroupsGroupId(w http.ResponseWriter
 	handler.ServeHTTP(w, r.WithContext(ctx))
 }
 
-// PostScreensGroupsGroupIdCommentary operation middleware
-func (siw *ServerInterfaceWrapper) PostScreensGroupsGroupIdCommentary(w http.ResponseWriter, r *http.Request) {
+// PostScreensLogin operation middleware
+func (siw *ServerInterfaceWrapper) PostScreensLogin(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-
-	var err error
-
-	// ------------- Path parameter "groupId" -------------
-	var groupId string
-
-	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
-		return
-	}
 
 	ctx = context.WithValue(ctx, BasicAuthScopes, []string{})
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PostScreensGroupsGroupIdCommentary(w, r, groupId)
+		siw.Handler.PostScreensLogin(w, r)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -878,9 +878,6 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 	}
 
 	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/screen/login", wrapper.PostScreensLogin)
-	})
-	r.Group(func(r chi.Router) {
 		r.Get(options.BaseURL+"/screens/activities", wrapper.GetScreensActivities)
 	})
 	r.Group(func(r chi.Router) {
@@ -905,10 +902,13 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 		r.Post(options.BaseURL+"/screens/groups", wrapper.PostScreensGroups)
 	})
 	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/screens/groups/{expenseId}/commentary", wrapper.PostScreensGroupsExpenseIdCommentary)
+	})
+	r.Group(func(r chi.Router) {
 		r.Get(options.BaseURL+"/screens/groups/{groupId}", wrapper.GetScreensGroupsGroupId)
 	})
 	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/screens/groups/{groupId}/commentary", wrapper.PostScreensGroupsGroupIdCommentary)
+		r.Post(options.BaseURL+"/screens/login", wrapper.PostScreensLogin)
 	})
 
 	return r
