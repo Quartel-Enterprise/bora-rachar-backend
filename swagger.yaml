@@ -209,6 +209,60 @@ paths:
         '200':
           description: ok
 
+  /users:
+    get:
+      tags:
+        - Users
+      parameters:
+        - in: query
+          name: userId
+          schema:
+            type: string
+            example: "userId"
+        - in: query
+          name: email
+          schema:
+            type: string
+            example: "quartelOtaku@gmail.com"
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+    post:
+      tags:
+        - Users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequestBody'
+      responses:
+        '201':
+          description: created
+
+  /users/{userId}:
+    put:
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+            example: "userId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequestBody'
+      responses:
+        '200':
+          description: ok
+
 components:
   schemas:
     Pagination:
@@ -287,6 +341,9 @@ components:
           type: number
           example: 250
     GroupsScreenRequestBody:
+      required:
+        - name
+        - participants
       properties:
         name:
           type: string
@@ -297,9 +354,15 @@ components:
         participants:
           type: array
           items:
-            properties:
-              email:
-                type: string
+            $ref: '#/components/schemas/GroupsScreenParticipantRequestBody'
+
+    GroupsScreenParticipantRequestBody:
+      properties:
+        userId:
+          type: string
+        isAdmin:
+          type: boolean
+          example: false
     GroupsScreenResponse:
       properties:
         balance:
@@ -575,7 +638,32 @@ components:
               telefone:
                 type: string
                 example: "+5538999999999"
-
+    UserResponse:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        pixKey:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    UserRequestBody:
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        pixKey:
+          type: string
+        avatar:
+          type: string
   parameters:
     limit:
       required: true

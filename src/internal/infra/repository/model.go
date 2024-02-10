@@ -7,18 +7,17 @@ import (
 )
 
 type User struct {
-	id        string
-	userId    string
+	id        big.Int
 	name      string
 	email     string
-	pixKey    sql.NullString
+	pixKey    string
 	createdAt time.Time
 	updatedAt sql.NullTime
 	deletedAt sql.NullTime
 }
 
 type GroupParticipant struct {
-	id            string
+	id            big.Int
 	userId        string
 	groupId       string
 	isAdmin       bool
@@ -27,17 +26,17 @@ type GroupParticipant struct {
 }
 
 type GroupSolicitation struct {
-	id        string
+	id        big.Int
 	userId    string
 	groupId   string
 	createdAt time.Time
 }
 
 type Group struct {
-	id         string
+	id         big.Int
 	name       string
 	avatar     string
-	accessCode string
+	accessCode sql.NullString
 	createdBy  string
 	createdAt  time.Time
 	updatedAt  sql.NullTime
@@ -45,7 +44,7 @@ type Group struct {
 }
 
 type ExpensePaymentSplit struct {
-	id              string
+	id              big.Int
 	userId          string
 	expenseId       string
 	value           big.Float
@@ -55,7 +54,7 @@ type ExpensePaymentSplit struct {
 }
 
 type ExpenseCommentary struct {
-	id         string
+	id         big.Int
 	userId     string
 	expenseId  string
 	commentary string
@@ -65,7 +64,7 @@ type ExpenseCommentary struct {
 }
 
 type Expense struct {
-	id          string
+	id          big.Int
 	groupId     string
 	title       string
 	description string

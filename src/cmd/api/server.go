@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/Quartel-Enterprise/bora-rachar-backend/src/cmd/generated-code"
+	"github.com/Quartel-Enterprise/bora-rachar-backend/src/internal/flow"
 	"net/http"
 )
 
@@ -49,7 +50,7 @@ func (_ BoraRacharServer) GetScreensGroups(w http.ResponseWriter, r *http.Reques
 
 // PostScreensGroups (POST /screens/groups)
 func (_ BoraRacharServer) PostScreensGroups(w http.ResponseWriter, r *http.Request, params generated.PostScreensGroupsParams) {
-	w.WriteHeader(http.StatusNotImplemented)
+	flow.PostScreensGroups(w, r, params, MYSLQ)
 }
 
 // GetScreensGroupsGroupId (GET /screens/groups/{groupId})
@@ -59,5 +60,20 @@ func (_ BoraRacharServer) GetScreensGroupsGroupId(w http.ResponseWriter, r *http
 
 // PostScreensGroupsExpenseIdCommentary PostScreensGroupsGroupIdCommentary (POST /screens/groups/{expenseId}/commentary)
 func (_ BoraRacharServer) PostScreensGroupsExpenseIdCommentary(w http.ResponseWriter, r *http.Request, expenseId string) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// (GET /users)
+func (_ BoraRacharServer) GetUsers(w http.ResponseWriter, r *http.Request, params generated.GetUsersParams) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// (POST /users)
+func (_ BoraRacharServer) PostUsers(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// (PUT /users/{userId})
+func (_ BoraRacharServer) PutUsersUserId(w http.ResponseWriter, r *http.Request, userId string) {
 	w.WriteHeader(http.StatusNotImplemented)
 }

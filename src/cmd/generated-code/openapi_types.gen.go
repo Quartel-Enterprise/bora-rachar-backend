@@ -73,11 +73,9 @@ type ExpenseCategory string
 
 // ExpenseCommentRequestBody defines model for ExpenseCommentRequestBody.
 type ExpenseCommentRequestBody struct {
-	Commentary *string    `json:"commentary,omitempty"`
+	Commentary string     `json:"commentary"`
 	Date       *time.Time `json:"date,omitempty"`
-	UserId     *string    `json:"userId,omitempty"`
-	UserName   *string    `json:"userName,omitempty"`
-	UserPhoto  *string    `json:"userPhoto,omitempty"`
+	UserId     string     `json:"userId"`
 }
 
 // ExpenseScreenRequestBody defines model for ExpenseScreenRequestBody.
@@ -180,13 +178,17 @@ type GroupsScreenParticipant struct {
 	UserPhoto *string `json:"userPhoto,omitempty"`
 }
 
+// GroupsScreenParticipantRequestBody defines model for GroupsScreenParticipantRequestBody.
+type GroupsScreenParticipantRequestBody struct {
+	IsAdmin *bool   `json:"isAdmin,omitempty"`
+	UserId  *string `json:"userId,omitempty"`
+}
+
 // GroupsScreenRequestBody defines model for GroupsScreenRequestBody.
 type GroupsScreenRequestBody struct {
-	Name         *string `json:"name,omitempty"`
-	Participants *[]struct {
-		Email *string `json:"email,omitempty"`
-	} `json:"participants,omitempty"`
-	Photo *string `json:"photo,omitempty"`
+	Name         string                               `json:"name"`
+	Participants []GroupsScreenParticipantRequestBody `json:"participants"`
+	Photo        *string                              `json:"photo,omitempty"`
 }
 
 // GroupsScreenResponse defines model for GroupsScreenResponse.
@@ -219,6 +221,24 @@ type Pagination struct {
 type SummaryBalance struct {
 	AmountToPay     *float32 `json:"amountToPay,omitempty"`
 	AmountToReceive *float32 `json:"amountToReceive,omitempty"`
+}
+
+// UserRequestBody defines model for UserRequestBody.
+type UserRequestBody struct {
+	Avatar *string `json:"avatar,omitempty"`
+	Email  *string `json:"email,omitempty"`
+	Name   *string `json:"name,omitempty"`
+	PixKey *string `json:"pixKey,omitempty"`
+}
+
+// UserResponse defines model for UserResponse.
+type UserResponse struct {
+	CreatedAt *time.Time `json:"createdAt,omitempty"`
+	Email     *string    `json:"email,omitempty"`
+	Id        *int       `json:"id,omitempty"`
+	Name      *string    `json:"name,omitempty"`
+	PixKey    *string    `json:"pixKey,omitempty"`
+	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
 }
 
 // Limit defines model for limit.
@@ -283,6 +303,12 @@ type GetScreensGroupsGroupIdParams struct {
 	UserId UserIdHeader `json:"userId"`
 }
 
+// GetUsersParams defines parameters for GetUsers.
+type GetUsersParams struct {
+	UserId *string `form:"userId,omitempty" json:"userId,omitempty"`
+	Email  *string `form:"email,omitempty" json:"email,omitempty"`
+}
+
 // PostScreensContactsJSONRequestBody defines body for PostScreensContacts for application/json ContentType.
 type PostScreensContactsJSONRequestBody = ContactsScreenRequestBody
 
@@ -300,3 +326,9 @@ type PostScreensGroupsExpenseIdCommentaryJSONRequestBody = ExpenseCommentRequest
 
 // PostScreensLoginJSONRequestBody defines body for PostScreensLogin for application/json ContentType.
 type PostScreensLoginJSONRequestBody = LoginRequestBody
+
+// PostUsersJSONRequestBody defines body for PostUsers for application/json ContentType.
+type PostUsersJSONRequestBody = UserRequestBody
+
+// PutUsersUserIdJSONRequestBody defines body for PutUsersUserId for application/json ContentType.
+type PutUsersUserIdJSONRequestBody = UserRequestBody
