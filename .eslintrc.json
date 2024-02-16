@@ -1,0 +1,45 @@
+{
+    "root": true,
+    "env": {
+        "node": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+        "@typescript-eslint",
+        "prettier"
+    ],
+    "extends": [
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "rules": {
+        "prettier/prettier": ["error", {
+            "semi": true,
+            "trailingComma": "all",
+            "singleQuote": false,
+            "printWidth": 100,
+            "tabWidth": 4,
+            "endOfLine": "lf"
+        }],
+        "arrow-body-style": "off",
+        "prefer-arrow-callback": "off",
+        "@typescript-eslint/naming-convention": [
+            "warn",
+            {
+                "selector": "typeLike",
+                "format": ["PascalCase"]
+            }
+        ],
+        "no-duplicate-imports":"warn"
+    },
+    "overrides": [
+        {
+          "files": ["*.js"],
+          "rules": {
+            "@typescript-eslint/no-var-requires":  ["off"],
+            "camelcase": ["warn"],
+            "@typescript-eslint/explicit-function-return-type": ["off"]
+          }
+        }
+      ]
+}
