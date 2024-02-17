@@ -2,9 +2,9 @@ import { ExpenseCommentary } from "./entity";
 
 export type CreateExpenseCommentaryDTO = Omit<
     ExpenseCommentary,
-    "id" | "createdAt" | "updatedAt" | "deletedAt"
+    "id" | "expense" | "user" | "createdAt" | "updatedAt" | "deletedAt"
 >;
 
 export type UpdateExpenseCommentaryDTO = Partial<
-    Omit<ExpenseCommentary, "id" | "createdAt" | "updatedAt" | "deletedAt">
+    Omit<ExpenseCommentary, "id" | "expense" | "user" | "createdAt" | "updatedAt" | "deletedAt">
 >;
