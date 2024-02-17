@@ -9,22 +9,22 @@ datasource db {
 }
 
 model User {
-    id                  String      @id @default(uuid()) @db.Char(36)
-    userId              String      @db.Char(36) @map("user_id")
-    name                String      @db.VarChar(255) @map("name")
-    avatar              String      @db.VarChar(255) @map("avatar") @default("")
-    email               String      @db.VarChar(255) @map("email")
-    pixKey              String      @db.VarChar(255) @map("pix_key") @default("")
-    createdAt           DateTime    @default(now()) @map("created_at") @db.DateTime(0)
-    updatedAt           DateTime    @default(now()) @updatedAt @map("updated_at") @db.DateTime(0)
-    deletedAt           DateTime?   @map("deleted_at") @db.DateTime(0)
+    id                      String      @id @default(uuid()) @db.Char(36)
+    userId                  String      @db.Char(36) @map("user_id")
+    name                    String      @db.VarChar(255) @map("name")
+    avatar                  String      @db.VarChar(255) @map("avatar") @default("")
+    email                   String      @db.VarChar(255) @map("email")
+    pixKey                  String      @db.VarChar(255) @map("pix_key") @default("")
+    createdAt               DateTime    @default(now()) @map("created_at") @db.DateTime(0)
+    updatedAt               DateTime    @default(now()) @updatedAt @map("updated_at") @db.DateTime(0)
+    deletedAt               DateTime?   @map("deleted_at") @db.DateTime(0)
 
-    groups              Group[]
-    expenses            Expense[]
-    groupParticipants   GroupParticipant[]
-    groupSolicitations  GroupSolicitation[]
-    expensePaymentSplit ExpensePaymentSplit[]
-    expenseCommentary   ExpenseCommentary[]
+    groups                  Group[]
+    expenses                Expense[]
+    groupParticipants       GroupParticipant[]
+    groupSolicitations      GroupSolicitation[]
+    expensePaymentSplits    ExpensePaymentSplit[]
+    expenseCommentaries     ExpenseCommentary[]
 
     @@map("user")
 }
@@ -48,24 +48,24 @@ model Group {
 }
 
 model Expense {
-    id                  String      @id @default(uuid()) @db.Char(36)
-    groupId             String      @db.Char(36) @map("group_id")
-    title               String      @db.VarChar(255) @map("title")
-    description         String      @db.VarChar(255) @map("description") @default("")
-    category            String      @db.VarChar(255) @map("category") @default("")
-    avatar              String      @db.VarChar(255) @map("avatar") @default("")
-    value               Decimal     @default(0.00) @db.Decimal(12, 2)
-    expenseDate         DateTime    @default(now()) @map("expense_date") @db.DateTime(0)
-    createdBy           String      @db.Char(36) @map("created_by")
+    id                      String      @id @default(uuid()) @db.Char(36)
+    groupId                 String      @db.Char(36) @map("group_id")
+    title                   String      @db.VarChar(255) @map("title")
+    description             String      @db.VarChar(255) @map("description") @default("")
+    category                String      @db.VarChar(255) @map("category") @default("")
+    avatar                  String      @db.VarChar(255) @map("avatar") @default("")
+    value                   Decimal     @default(0.00) @db.Decimal(12, 2)
+    expenseDate             DateTime    @default(now()) @map("expense_date") @db.DateTime(0)
+    createdBy               String      @db.Char(36) @map("created_by")
     
-    createdAt           DateTime    @default(now()) @map("created_at") @db.DateTime(0)
-    updatedAt           DateTime    @default(now()) @updatedAt @map("updated_at") @db.DateTime(0)
-    deletedAt           DateTime?   @map("deleted_at") @db.DateTime(0)
+    createdAt               DateTime    @default(now()) @map("created_at") @db.DateTime(0)
+    updatedAt               DateTime    @default(now()) @updatedAt @map("updated_at") @db.DateTime(0)
+    deletedAt               DateTime?   @map("deleted_at") @db.DateTime(0)
 
-    user                User        @relation(fields: [createdBy], references: [id], onDelete: NoAction, onUpdate: NoAction)
-    group               Group       @relation(fields: [groupId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-    expensePaymentSplit ExpensePaymentSplit[]
-    expenseCommentary   ExpenseCommentary[]
+    user                    User        @relation(fields: [createdBy], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    group                   Group       @relation(fields: [groupId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    expensePaymentSplits    ExpensePaymentSplit[]
+    expenseCommentaries     ExpenseCommentary[]
 
     @@map("expense")
 }
