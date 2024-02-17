@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "cross-env NODE_ENV=development ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/main.ts",
     "start": "node build/main.js",
+    "build": "cross-env ./node_modules/typescript/bin/tsc && tsc-alias",
     "clean-build": "rm -rf build/",
     "lint": "eslint --ext .ts,.js -c .eslintrc.json src",
     "lint-fix": "eslint --ext .ts,.js -c .eslintrc.json src --fix",
