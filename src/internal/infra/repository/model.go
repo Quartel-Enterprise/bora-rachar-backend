@@ -7,74 +7,74 @@ import (
 )
 
 type User struct {
-	id        string
-	userId    string
+	id        big.Int
 	name      string
 	email     string
-	pixKey    sql.NullString
+	pixKey    string
 	createdAt time.Time
-	updatedAt sql.NullTime
-	deletedAt sql.NullTime
+	updatedAt *time.Time
+	deletedAt *time.Time
 }
 
 type GroupParticipant struct {
-	id            string
+	id            big.Int
 	userId        string
 	groupId       string
 	isAdmin       bool
 	admissionDate time.Time
-	removedAt     sql.NullTime
+	removedAt     *time.Time
 }
 
 type GroupSolicitation struct {
-	id        string
+	id        big.Int
 	userId    string
 	groupId   string
 	createdAt time.Time
 }
 
 type Group struct {
-	id         string
+	id         big.Int
 	name       string
 	avatar     string
-	accessCode string
+	accessCode sql.NullString
 	createdBy  string
-	createdAt  time.Time
-	updatedAt  sql.NullTime
-	deletedAt  sql.NullTime
+	createdAt  *time.Time
+	updatedAt  *time.Time
+	deletedAt  *time.Time
 }
 
 type ExpensePaymentSplit struct {
-	id              string
-	userId          string
-	expenseId       string
-	value           big.Float
-	transactionType string
-	createdAt       time.Time
-	isDebtSettled   bool
+	Id            big.Int
+	UserId        string
+	ExpenseId     string
+	Value         float32
+	CreatedAt     *time.Time
+	IsDebtSettled bool
 }
 
+type TransactionType string
+
 type ExpenseCommentary struct {
-	id         string
+	id         big.Int
 	userId     string
 	expenseId  string
 	commentary string
-	createdAt  time.Time
-	updatedAt  sql.NullTime
-	deletedAt  sql.NullTime
+	createdAt  *time.Time
+	updatedAt  *time.Time
+	deletedAt  *time.Time
 }
 
 type Expense struct {
-	id          string
-	groupId     string
-	title       string
-	description string
-	category    string
-	avatar      string
-	value       big.Float
-	expenseDate time.Time
-	createdBy   string
-	createdAt   time.Time
-	updatedAt   sql.NullTime
-	deletedAt   sql.NullTime
+	Id          big.Int
+	GroupId     *string
+	Title       string
+	Description *string
+	Category    string
+	Avatar      *string
+	Value       float32
+	ExpenseDate time.Time
+	CreatedBy   string
+	CreatedAt   *time.Time
+	UpdatedAt   *time.Time
+	DeletedAt   *time.Time
 }
