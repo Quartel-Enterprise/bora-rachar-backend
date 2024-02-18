@@ -14,47 +14,47 @@ func (_ BoraRacharServer) PostScreensLogin(w http.ResponseWriter, r *http.Reques
 }
 
 // GetScreensActivities (GET /screens/activities)
-func (_ BoraRacharServer) GetScreensActivities(w http.ResponseWriter, r *http.Request, params generated.GetScreensActivitiesParams) {
+func (_ BoraRacharServer) GetScreensActivities(w http.ResponseWriter, r *http.Request, params swagger.GetScreensActivitiesParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // GetScreensContacts (GET /screens/contacts)
-func (_ BoraRacharServer) GetScreensContacts(w http.ResponseWriter, r *http.Request, params generated.GetScreensContactsParams) {
+func (_ BoraRacharServer) GetScreensContacts(w http.ResponseWriter, r *http.Request, params swagger.GetScreensContactsParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // PostScreensContacts (POST /screens/contacts)
-func (_ BoraRacharServer) PostScreensContacts(w http.ResponseWriter, r *http.Request, params generated.PostScreensContactsParams) {
+func (_ BoraRacharServer) PostScreensContacts(w http.ResponseWriter, r *http.Request, params swagger.PostScreensContactsParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // PostScreensExpenses (POST /screens/expenses)
-func (_ BoraRacharServer) PostScreensExpenses(w http.ResponseWriter, r *http.Request, params generated.PostScreensExpensesParams) {
-	w.WriteHeader(http.StatusNotImplemented)
+func (_ BoraRacharServer) PostScreensExpenses(w http.ResponseWriter, r *http.Request, params swagger.PostScreensExpensesParams) {
+	flow.PostScreensExpenses(w, r, params, MYSLQ)
 }
 
 // DeleteScreensExpensesExpenseId (DELETE /screens/expenses/{expenseId})
-func (_ BoraRacharServer) DeleteScreensExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId string, params generated.DeleteScreensExpensesExpenseIdParams) {
+func (_ BoraRacharServer) DeleteScreensExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId string, params swagger.DeleteScreensExpensesExpenseIdParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // PutScreensExpensesExpenseId (PUT /screens/expenses/{expenseId})
-func (_ BoraRacharServer) PutScreensExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId string, params generated.PutScreensExpensesExpenseIdParams) {
+func (_ BoraRacharServer) PutScreensExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId string, params swagger.PutScreensExpensesExpenseIdParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // GetScreensGroups (GET /screens/groups)
-func (_ BoraRacharServer) GetScreensGroups(w http.ResponseWriter, r *http.Request, params generated.GetScreensGroupsParams) {
+func (_ BoraRacharServer) GetScreensGroups(w http.ResponseWriter, r *http.Request, params swagger.GetScreensGroupsParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // PostScreensGroups (POST /screens/groups)
-func (_ BoraRacharServer) PostScreensGroups(w http.ResponseWriter, r *http.Request, params generated.PostScreensGroupsParams) {
+func (_ BoraRacharServer) PostScreensGroups(w http.ResponseWriter, r *http.Request, params swagger.PostScreensGroupsParams) {
 	flow.PostScreensGroups(w, r, params, MYSLQ)
 }
 
 // GetScreensGroupsGroupId (GET /screens/groups/{groupId})
-func (_ BoraRacharServer) GetScreensGroupsGroupId(w http.ResponseWriter, r *http.Request, groupId string, params generated.GetScreensGroupsGroupIdParams) {
+func (_ BoraRacharServer) GetScreensGroupsGroupId(w http.ResponseWriter, r *http.Request, groupId string, params swagger.GetScreensGroupsGroupIdParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -64,7 +64,7 @@ func (_ BoraRacharServer) PostScreensGroupsExpenseIdCommentary(w http.ResponseWr
 }
 
 // (GET /users)
-func (_ BoraRacharServer) GetUsers(w http.ResponseWriter, r *http.Request, params generated.GetUsersParams) {
+func (_ BoraRacharServer) GetUsers(w http.ResponseWriter, r *http.Request, params swagger.GetUsersParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 

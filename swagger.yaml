@@ -508,6 +508,7 @@ components:
         - TRANSPORTATION
         - ENTERTAINMENT
         - FOOD
+        - DEFAULT
     GroupDetailsScreenBalance:
       properties:
         amountToPay:
@@ -571,8 +572,10 @@ components:
       required:
         - name
         - value
-        - payers
+        - payer
         - participants
+        - divisionType
+        - category
       properties:
         name:
           type: string
@@ -582,19 +585,26 @@ components:
           example: "informacao mais detalhada sobre o gasto"
         category:
           $ref: '#/components/schemas/ExpenseCategory'
+        groupId:
+          type: string
+          example: "id"
         value:
           type: number
           example: 15.49
-        payers:
-          type: array
-          items:
-            properties:
-              userId:
-                type: string
-                example: "userId"
-              value:
-                type: string
-                example: 15.69
+        payer:
+          type: string
+          example: "userId"
+        avatar:
+          type: string
+          example: "link photo"
+        date:
+          type: string
+          format: date
+        divisionType:
+          type: string
+          enum:
+            - EQUALY
+            - SET_VALUES
         participants:
           type: array
           items:
@@ -603,7 +613,7 @@ components:
                 type: string
                 example: "userId"
               value:
-                type: string
+                type: number
                 example: 15.69
     ContactsScreenResponse:
         properties:

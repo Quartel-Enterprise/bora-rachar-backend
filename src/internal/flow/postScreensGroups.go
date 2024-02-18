@@ -10,10 +10,10 @@ import (
 	"net/http"
 )
 
-func PostScreensGroups(w http.ResponseWriter, r *http.Request, params generated.PostScreensGroupsParams, db *sql.DB) {
+func PostScreensGroups(w http.ResponseWriter, r *http.Request, params swagger.PostScreensGroupsParams, db *sql.DB) {
 	userId := params.UserId
 
-	var requestBody generated.GroupsScreenRequestBody
+	var requestBody swagger.GroupsScreenRequestBody
 
 	if err := json.NewDecoder(r.Body).Decode(&requestBody); err != nil {
 		logger.Error.Println(err)

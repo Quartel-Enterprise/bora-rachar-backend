@@ -13,30 +13,19 @@ import (
 var MYSLQ *sql.DB
 
 func init() {
-	config := repository.GetConfig()
-	db, err := sql.Open("mysql", config.FormatDSN())
-
-	if err != nil {
+	if db, err := repository.Connect(); err != nil {
 		log.Fatal(err)
+	} else {
+		MYSLQ = db
 	}
-
-	pingErr := db.Ping()
-	if pingErr != nil {
-		log.Fatal(pingErr)
-	}
-	fmt.Println("Connected!")
-
-	MYSLQ = db
 }
 
 func main() {
-	s := BoraRacharServer{}
-	h := generated.Handler(s)
-	addr := ":" + os.Getenv("SERVER_PORT")
+	server := BoraRacharServer{}
+	handler := swagger.Handler(server)
+	addr := fmt.Sprintf(":%s", os.Getenv("SERVER_PORT"))
 
-	err := http.ListenAndServe(addr, h)
-
-	if err != nil {
+	if err := http.ListenAndServe(addr, handler); err != nil {
 		log.Fatal(err)
 	}
 }
