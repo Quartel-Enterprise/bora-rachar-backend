@@ -1,19 +1,19 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 	"github.com/Quartel-Enterprise/bora-rachar-backend/src/cmd/generated-code"
-	"github.com/Quartel-Enterprise/bora-rachar-backend/src/internal/infra/repository"
+	repository_config "github.com/Quartel-Enterprise/bora-rachar-backend/src/internal/infra/repository/config"
+	"github.com/jmoiron/sqlx"
 	"log"
 	"net/http"
 	"os"
 )
 
-var MYSLQ *sql.DB
+var MYSLQ *sqlx.DB
 
 func init() {
-	if db, err := repository.Connect(); err != nil {
+	if db, err := repository_config.ConnectSqlx(); err != nil {
 		log.Fatal(err)
 	} else {
 		MYSLQ = db

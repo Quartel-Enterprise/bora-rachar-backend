@@ -45,17 +45,20 @@ func (_ BoraRacharServer) PutScreensExpensesExpenseId(w http.ResponseWriter, r *
 
 // GetScreensGroups (GET /screens/groups)
 func (_ BoraRacharServer) GetScreensGroups(w http.ResponseWriter, r *http.Request, params swagger.GetScreensGroupsParams) {
-	w.WriteHeader(http.StatusNotImplemented)
+	w.Header().Set("Content-Type", "application/json")
+	flow.GetScreensGroups(w, r, params, MYSLQ)
 }
 
 // PostScreensGroups (POST /screens/groups)
 func (_ BoraRacharServer) PostScreensGroups(w http.ResponseWriter, r *http.Request, params swagger.PostScreensGroupsParams) {
+	w.Header().Set("Content-Type", "application/json")
 	flow.PostScreensGroups(w, r, params, MYSLQ)
 }
 
 // GetScreensGroupsGroupId (GET /screens/groups/{groupId})
 func (_ BoraRacharServer) GetScreensGroupsGroupId(w http.ResponseWriter, r *http.Request, groupId string, params swagger.GetScreensGroupsGroupIdParams) {
-	w.WriteHeader(http.StatusNotImplemented)
+	w.Header().Set("Content-Type", "application/json")
+	flow.GetScreensGroupsGroupId(w, r, groupId, params, MYSLQ)
 }
 
 // PostScreensGroupsExpenseIdCommentary PostScreensGroupsGroupIdCommentary (POST /screens/groups/{expenseId}/commentary)
