@@ -564,9 +564,6 @@ components:
         commentary:
           type: string
           example: "vou pagar nao hehe"
-        date:
-          type: string
-          format: date-time
 
     ExpenseScreenRequestBody:
       required:

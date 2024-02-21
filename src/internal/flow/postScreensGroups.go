@@ -2,15 +2,15 @@ package flow
 
 import (
 	"context"
-	"database/sql"
 	"encoding/json"
 	"github.com/Quartel-Enterprise/bora-rachar-backend/src/cmd/generated-code"
 	"github.com/Quartel-Enterprise/bora-rachar-backend/src/internal/infra/logger"
-	"github.com/Quartel-Enterprise/bora-rachar-backend/src/internal/infra/repository"
+	repository_query "github.com/Quartel-Enterprise/bora-rachar-backend/src/internal/infra/repository/query"
+	"github.com/jmoiron/sqlx"
 	"net/http"
 )
 
-func PostScreensGroups(w http.ResponseWriter, r *http.Request, params swagger.PostScreensGroupsParams, db *sql.DB) {
+func PostScreensGroups(w http.ResponseWriter, r *http.Request, params swagger.PostScreensGroupsParams, db *sqlx.DB) {
 	userId := params.UserId
 
 	var requestBody swagger.GroupsScreenRequestBody
@@ -20,7 +20,7 @@ func PostScreensGroups(w http.ResponseWriter, r *http.Request, params swagger.Po
 		w.WriteHeader(http.StatusInternalServerError)
 	}
 
-	if err := repository.CreatGroupWithParticipants(context.Background(), db, requestBody, userId); err != nil {
+	if err := repository_query.CreatGroupWithParticipants(context.Background(), db, requestBody, userId); err != nil {
 		logger.Error.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 	}

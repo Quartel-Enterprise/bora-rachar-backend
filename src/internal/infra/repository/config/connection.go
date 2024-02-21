@@ -1,10 +1,9 @@
-package repository
+package repository_config
 
 import (
-	"database/sql"
 	"fmt"
-	"github.com/Quartel-Enterprise/bora-rachar-backend/src/internal/infra/logger"
 	"github.com/go-sql-driver/mysql"
+	"github.com/jmoiron/sqlx"
 	"os"
 )
 
@@ -19,18 +18,13 @@ func getConfig() mysql.Config {
 	}
 }
 
-func Connect() (*sql.DB, error) {
+func ConnectSqlx() (*sqlx.DB, error) {
 	config := getConfig()
-	db, err := sql.Open("mysql", config.FormatDSN())
+	db, err := sqlx.Connect("mysql", config.FormatDSN())
 
 	if err != nil {
 		return nil, fmt.Errorf("MYSQL: error when starting connection. Error: %s", err.Error())
 	}
 
-	pingErr := db.Ping()
-	if pingErr != nil {
-		return nil, fmt.Errorf("MYSQL: error when communicating with database. Error: %s", err.Error())
-	}
-	logger.Info.Println("Successful connecting to database!")
 	return db, nil
 }
