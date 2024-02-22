@@ -82,9 +82,8 @@ type ExpenseCategory string
 
 // ExpenseCommentRequestBody defines model for ExpenseCommentRequestBody.
 type ExpenseCommentRequestBody struct {
-	Commentary string     `json:"commentary"`
-	Date       *time.Time `json:"date,omitempty"`
-	UserId     string     `json:"userId"`
+	Commentary string `json:"commentary"`
+	UserId     string `json:"userId"`
 }
 
 // ExpenseScreenRequestBody defines model for ExpenseScreenRequestBody.
@@ -133,11 +132,12 @@ type GroupDetailsScreenBalance struct {
 type GroupDetailsScreenExpense struct {
 	Category   *ExpenseCategory `json:"category,omitempty"`
 	Commentary *[]struct {
-		Commentary *string    `json:"commentary,omitempty"`
-		Date       *time.Time `json:"date,omitempty"`
-		UserId     *string    `json:"userId,omitempty"`
-		UserName   *string    `json:"userName,omitempty"`
-		UserPhoto  *string    `json:"userPhoto,omitempty"`
+		Commentary   *string    `json:"commentary,omitempty"`
+		CommentaryId *string    `json:"commentaryId,omitempty"`
+		Date         *time.Time `json:"date,omitempty"`
+		UserId       *string    `json:"userId,omitempty"`
+		UserName     *string    `json:"userName,omitempty"`
+		UserPhoto    *string    `json:"userPhoto,omitempty"`
 	} `json:"commentary,omitempty"`
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
 	CreatedBy *struct {
@@ -322,6 +322,9 @@ type GetUsersParams struct {
 	Email  *string `form:"email,omitempty" json:"email,omitempty"`
 }
 
+// PutCommentariesCommentaryIdJSONRequestBody defines body for PutCommentariesCommentaryId for application/json ContentType.
+type PutCommentariesCommentaryIdJSONRequestBody = ExpenseCommentRequestBody
+
 // PostScreensContactsJSONRequestBody defines body for PostScreensContacts for application/json ContentType.
 type PostScreensContactsJSONRequestBody = ContactsScreenRequestBody
 
@@ -331,11 +334,11 @@ type PostScreensExpensesJSONRequestBody = ExpenseScreenRequestBody
 // PutScreensExpensesExpenseIdJSONRequestBody defines body for PutScreensExpensesExpenseId for application/json ContentType.
 type PutScreensExpensesExpenseIdJSONRequestBody = ExpenseScreenRequestBody
 
+// PostScreensExpensesExpenseIdCommentaryJSONRequestBody defines body for PostScreensExpensesExpenseIdCommentary for application/json ContentType.
+type PostScreensExpensesExpenseIdCommentaryJSONRequestBody = ExpenseCommentRequestBody
+
 // PostScreensGroupsJSONRequestBody defines body for PostScreensGroups for application/json ContentType.
 type PostScreensGroupsJSONRequestBody = GroupsScreenRequestBody
-
-// PostScreensGroupsExpenseIdCommentaryJSONRequestBody defines body for PostScreensGroupsExpenseIdCommentary for application/json ContentType.
-type PostScreensGroupsExpenseIdCommentaryJSONRequestBody = ExpenseCommentRequestBody
 
 // PostScreensLoginJSONRequestBody defines body for PostScreensLogin for application/json ContentType.
 type PostScreensLoginJSONRequestBody = LoginRequestBody

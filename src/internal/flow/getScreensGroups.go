@@ -2,11 +2,11 @@ package flow
 
 import (
 	"context"
-	"encoding/json"
 	swagger "github.com/Quartel-Enterprise/bora-rachar-backend/src/cmd/generated-code"
 	"github.com/Quartel-Enterprise/bora-rachar-backend/src/internal/infra/logger"
 	repository_model "github.com/Quartel-Enterprise/bora-rachar-backend/src/internal/infra/repository/model"
 	repository_query "github.com/Quartel-Enterprise/bora-rachar-backend/src/internal/infra/repository/query"
+	"github.com/Quartel-Enterprise/bora-rachar-backend/src/util"
 	"github.com/jmoiron/sqlx"
 	"net/http"
 )
@@ -27,8 +27,7 @@ func GetScreensGroups(w http.ResponseWriter, r *http.Request, params swagger.Get
 	for _, g := range groups {
 		participants, err := repository_query.GetParticipants(g.Id, db)
 		if err != nil {
-			logger.Error.Println(err)
-			w.WriteHeader(http.StatusInternalServerError)
+			util.HttpResponse(w, http.StatusInternalServerError, err)
 			return
 		}
 		groupsResponse = append(groupsResponse, mergeGroupWithParticipants(g, participants))
@@ -36,22 +35,13 @@ func GetScreensGroups(w http.ResponseWriter, r *http.Request, params swagger.Get
 
 	response.Balance, err = getBalance(db, userId)
 	if err != nil {
-		logger.Error.Println(err)
-		w.WriteHeader(http.StatusInternalServerError)
+		util.HttpResponse(w, http.StatusInternalServerError, err)
 		return
 	}
 
 	response.Groups = &groupsResponse
 
-	stringResponse, err := json.Marshal(response)
-	if err != nil {
-		logger.Error.Println(err)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	w.WriteHeader(http.StatusOK)
-	w.Write(stringResponse)
+	util.HttpResponseWihBody(w, http.StatusOK, response, err)
 }
 
 func getBalance(db *sqlx.DB, userId string) (*swagger.SummaryBalance, error) {

@@ -8,6 +8,16 @@ import (
 
 type BoraRacharServer struct{}
 
+// DeleteCommentariesCommentaryId (DELETE /commentaries/{commentaryId})
+func (_ BoraRacharServer) DeleteCommentariesCommentaryId(w http.ResponseWriter, r *http.Request, commentaryId string) {
+	flow.DeleteCommentariesCommentaryId(w, r, commentaryId, MYSLQ)
+}
+
+// PutCommentariesCommentaryId (PUT /commentaries/{commentaryId})
+func (_ BoraRacharServer) PutCommentariesCommentaryId(w http.ResponseWriter, r *http.Request, commentaryId string) {
+	flow.PutCommentariesCommentaryId(w, r, commentaryId, MYSLQ)
+}
+
 // PostScreensLogin (POST /screen/login)
 func (_ BoraRacharServer) PostScreensLogin(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
@@ -43,27 +53,24 @@ func (_ BoraRacharServer) PutScreensExpensesExpenseId(w http.ResponseWriter, r *
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
+// PostScreensExpensesExpenseIdCommentary (POST /screens/expenses/{expenseId}/commentary)
+func (_ BoraRacharServer) PostScreensExpensesExpenseIdCommentary(w http.ResponseWriter, r *http.Request, expenseId string) {
+	flow.PostScreensExpensesExpenseIdCommentary(w, r, expenseId, MYSLQ)
+}
+
 // GetScreensGroups (GET /screens/groups)
 func (_ BoraRacharServer) GetScreensGroups(w http.ResponseWriter, r *http.Request, params swagger.GetScreensGroupsParams) {
-	w.Header().Set("Content-Type", "application/json")
 	flow.GetScreensGroups(w, r, params, MYSLQ)
 }
 
 // PostScreensGroups (POST /screens/groups)
 func (_ BoraRacharServer) PostScreensGroups(w http.ResponseWriter, r *http.Request, params swagger.PostScreensGroupsParams) {
-	w.Header().Set("Content-Type", "application/json")
 	flow.PostScreensGroups(w, r, params, MYSLQ)
 }
 
 // GetScreensGroupsGroupId (GET /screens/groups/{groupId})
 func (_ BoraRacharServer) GetScreensGroupsGroupId(w http.ResponseWriter, r *http.Request, groupId string, params swagger.GetScreensGroupsGroupIdParams) {
-	w.Header().Set("Content-Type", "application/json")
 	flow.GetScreensGroupsGroupId(w, r, groupId, params, MYSLQ)
-}
-
-// PostScreensGroupsExpenseIdCommentary PostScreensGroupsGroupIdCommentary (POST /screens/groups/{expenseId}/commentary)
-func (_ BoraRacharServer) PostScreensGroupsExpenseIdCommentary(w http.ResponseWriter, r *http.Request, expenseId string) {
-	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // (GET /users)
