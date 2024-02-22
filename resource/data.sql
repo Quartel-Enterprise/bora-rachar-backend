@@ -32,3 +32,8 @@ INSERT INTO BORA_RACHAR.expense(id, group_id, title, description, category, avat
 VALUES(2, 2, 'Uber volta Escalada', 'descricao detalhada da despesa', 'TRANSPORTATION', 'link photo', 15.0000, '2024-02-21 01:59:37', '2', '2006-01-02 15:04:05', 1, NULL, NULL);
 INSERT INTO BORA_RACHAR.expense_payment_split(id, user_id, expense_id, value, created_at, is_debt_settled)
 VALUES(3, 3, 2, 10.0000, '2006-01-02 15:04:05', 0);
+
+INSERT INTO BORA_RACHAR.expense_commentary(id, user_id, expense_id, commentary, created_at, updated_at, deleted_at)
+VALUES(2, 2, 1, 'blz, ja ja te mando', '2006-01-02 15:04:05', '2006-01-02 15:04:05', NULL);
+INSERT INTO BORA_RACHAR.expense_commentary(id, user_id, expense_id, commentary, created_at, updated_at, deleted_at)
+VALUES(3, 2, 1, 'ok man', '2006-01-02 15:04:05', '2006-01-02 15:04:05', NULL);

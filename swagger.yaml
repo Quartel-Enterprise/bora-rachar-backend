@@ -139,6 +139,26 @@ paths:
         '200':
           description: ok
 
+  /screens/expenses/{expenseId}/commentary:
+    post:
+      tags:
+        - Screens
+      parameters:
+        - in: path
+          name: expenseId
+          required: true
+          schema:
+            type: string
+            example: "expenseId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExpenseCommentRequestBody'
+      responses:
+        '201':
+          description: ok
+
   /screens/contacts:
     get:
       tags:
@@ -189,22 +209,36 @@ paths:
       responses:
         '201':
           description: Created
-  /screens/groups/{expenseId}/commentary:
-    post:
+
+  /commentaries/{commentaryId}:
+    put:
       tags:
-        - Screens
+        - Commentary
       parameters:
         - in: path
-          name: expenseId
+          name: commentaryId
           required: true
           schema:
             type: string
-            example: "expenseId"
+            example: "commentaryId"
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ExpenseCommentRequestBody'
+      responses:
+        '200':
+          description: ok
+    delete:
+      tags:
+        - Commentary
+      parameters:
+        - in: path
+          name: commentaryId
+          required: true
+          schema:
+            type: string
+            example: "commentaryId"
       responses:
         '200':
           description: ok
@@ -496,6 +530,9 @@ components:
               userPhoto:
                 type: string
                 example: "link"
+              commentaryId:
+                type: string
+                example: "commentaryId"
               commentary:
                 type: string
                 example: "vou pagar nao hehe"
