@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	swagger "github.com/Quartel-Enterprise/bora-rachar-backend/src/cmd/generated-code"
-	"github.com/Quartel-Enterprise/bora-rachar-backend/src/internal/infra/logger"
 	repository_model "github.com/Quartel-Enterprise/bora-rachar-backend/src/internal/infra/repository/model"
 	"github.com/jmoiron/sqlx"
 
@@ -21,8 +20,7 @@ func PostScreensExpenses(w http.ResponseWriter, r *http.Request, params swagger.
 	var paymentSplit = make([]repository_model.ExpensePaymentSplit, len(requestBody.Participants))
 
 	if err := json.NewDecoder(r.Body).Decode(&requestBody); err != nil {
-		logger.Error.Println(err)
-		w.WriteHeader(http.StatusInternalServerError)
+		util.HttpResponse(w, http.StatusInternalServerError, err)
 	}
 
 	expense = mapToExpense(requestBody)
@@ -41,11 +39,10 @@ func PostScreensExpenses(w http.ResponseWriter, r *http.Request, params swagger.
 	}
 
 	if err := repository_query.CreatExpenseWithPaymentSplit(context.Background(), db, userId, expense, paymentSplit); err != nil {
-		logger.Error.Println(err)
-		w.WriteHeader(http.StatusInternalServerError)
+		util.HttpResponse(w, http.StatusInternalServerError, err)
 	}
 
-	w.WriteHeader(http.StatusCreated)
+	util.HttpResponse(w, http.StatusCreated, nil)
 }
 
 func mapToExpenseSplit(userId string, value float32) repository_model.ExpensePaymentSplit {
