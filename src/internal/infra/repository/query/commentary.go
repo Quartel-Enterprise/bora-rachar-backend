@@ -44,7 +44,7 @@ func DeleteCommentary(ctx context.Context, id string, db *sqlx.DB) error {
 	_, err := db.ExecContext(
 		ctx,
 		query,
-		time.DateTime, id,
+		time.DateTime, time.DateTime, id,
 	)
 
 	if err != nil {
