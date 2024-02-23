@@ -6,6 +6,6 @@ import (
 	"net/http"
 )
 
-func GetScreensGroupsGroupId(w http.ResponseWriter, r *http.Request, groupId string, params swagger.GetScreensGroupsGroupIdParams, db *sqlx.DB) {
+func GetGroupScreen(w http.ResponseWriter, r *http.Request, groupId string, params swagger.GetGroupScreenParams, db *sqlx.DB) {
 
 }

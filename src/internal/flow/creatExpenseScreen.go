@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-func PostScreensExpenses(w http.ResponseWriter, r *http.Request, params swagger.PostScreensExpensesParams, db *sqlx.DB) {
+func CreatExpenseScreen(w http.ResponseWriter, r *http.Request, params swagger.CreatExpenseScreenParams, db *sqlx.DB) {
 	var userId = params.UserId
 	var requestBody swagger.ExpenseScreenRequestBody
 	var expense repository_model.Expense

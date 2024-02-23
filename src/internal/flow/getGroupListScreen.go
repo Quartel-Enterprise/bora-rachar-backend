@@ -11,7 +11,7 @@ import (
 	"net/http"
 )
 
-func GetScreensGroups(w http.ResponseWriter, r *http.Request, params swagger.GetScreensGroupsParams, db *sqlx.DB) {
+func GetGroupListScreen(w http.ResponseWriter, r *http.Request, params swagger.GetGroupListScreenParams, db *sqlx.DB) {
 	var response swagger.GroupsScreenResponse
 	var groupsResponse = make([]swagger.GroupsScreenGroup, 0)
 	var userId = params.UserId

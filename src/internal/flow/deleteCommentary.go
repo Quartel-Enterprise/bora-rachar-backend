@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func DeleteCommentariesCommentaryId(w http.ResponseWriter, r *http.Request, commentaryId string, db *sqlx.DB) {
+func DeleteCommentary(w http.ResponseWriter, r *http.Request, commentaryId string, db *sqlx.DB) {
 	if err := repository_query.DeleteCommentary(context.Background(), commentaryId, db); err != nil {
 		util.HttpResponse(w, http.StatusInternalServerError, err)
 	}

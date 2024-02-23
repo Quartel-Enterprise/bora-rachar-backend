@@ -174,6 +174,12 @@ type GroupDetailsScreenResponse struct {
 	Meta *Pagination `json:"meta,omitempty"`
 }
 
+// GroupRequestBody defines model for GroupRequestBody.
+type GroupRequestBody struct {
+	Name  string `json:"name"`
+	Photo string `json:"photo"`
+}
+
 // GroupsScreenGroup defines model for GroupsScreenGroup.
 type GroupsScreenGroup struct {
 	AmountToPay     *float32                   `json:"amountToPay,omitempty"`
@@ -284,8 +290,8 @@ type PostScreensContactsParams struct {
 	RefreshToken string       `json:"refresh-token"`
 }
 
-// PostScreensExpensesParams defines parameters for PostScreensExpenses.
-type PostScreensExpensesParams struct {
+// CreatExpenseScreenParams defines parameters for CreatExpenseScreen.
+type CreatExpenseScreenParams struct {
 	UserId UserIdHeader `json:"userId"`
 }
 
@@ -299,18 +305,18 @@ type PutScreensExpensesExpenseIdParams struct {
 	UserId UserIdHeader `json:"userId"`
 }
 
-// GetScreensGroupsParams defines parameters for GetScreensGroups.
-type GetScreensGroupsParams struct {
+// GetGroupListScreenParams defines parameters for GetGroupListScreen.
+type GetGroupListScreenParams struct {
 	UserId UserIdHeader `json:"userId"`
 }
 
-// PostScreensGroupsParams defines parameters for PostScreensGroups.
-type PostScreensGroupsParams struct {
+// CreatGroupScreenParams defines parameters for CreatGroupScreen.
+type CreatGroupScreenParams struct {
 	UserId UserIdHeader `json:"userId"`
 }
 
-// GetScreensGroupsGroupIdParams defines parameters for GetScreensGroupsGroupId.
-type GetScreensGroupsGroupIdParams struct {
+// GetGroupScreenParams defines parameters for GetGroupScreen.
+type GetGroupScreenParams struct {
 	Page   Page         `form:"page" json:"page"`
 	Limit  Limit        `form:"limit" json:"limit"`
 	UserId UserIdHeader `json:"userId"`
@@ -322,23 +328,26 @@ type GetUsersParams struct {
 	Email  *string `form:"email,omitempty" json:"email,omitempty"`
 }
 
-// PutCommentariesCommentaryIdJSONRequestBody defines body for PutCommentariesCommentaryId for application/json ContentType.
-type PutCommentariesCommentaryIdJSONRequestBody = ExpenseCommentRequestBody
+// UpdateCommentaryJSONRequestBody defines body for UpdateCommentary for application/json ContentType.
+type UpdateCommentaryJSONRequestBody = ExpenseCommentRequestBody
+
+// UpdateGroupJSONRequestBody defines body for UpdateGroup for application/json ContentType.
+type UpdateGroupJSONRequestBody = GroupRequestBody
 
 // PostScreensContactsJSONRequestBody defines body for PostScreensContacts for application/json ContentType.
 type PostScreensContactsJSONRequestBody = ContactsScreenRequestBody
 
-// PostScreensExpensesJSONRequestBody defines body for PostScreensExpenses for application/json ContentType.
-type PostScreensExpensesJSONRequestBody = ExpenseScreenRequestBody
+// CreatExpenseScreenJSONRequestBody defines body for CreatExpenseScreen for application/json ContentType.
+type CreatExpenseScreenJSONRequestBody = ExpenseScreenRequestBody
 
 // PutScreensExpensesExpenseIdJSONRequestBody defines body for PutScreensExpensesExpenseId for application/json ContentType.
 type PutScreensExpensesExpenseIdJSONRequestBody = ExpenseScreenRequestBody
 
-// PostScreensExpensesExpenseIdCommentaryJSONRequestBody defines body for PostScreensExpensesExpenseIdCommentary for application/json ContentType.
-type PostScreensExpensesExpenseIdCommentaryJSONRequestBody = ExpenseCommentRequestBody
+// AddCommentaryJSONRequestBody defines body for AddCommentary for application/json ContentType.
+type AddCommentaryJSONRequestBody = ExpenseCommentRequestBody
 
-// PostScreensGroupsJSONRequestBody defines body for PostScreensGroups for application/json ContentType.
-type PostScreensGroupsJSONRequestBody = GroupsScreenRequestBody
+// CreatGroupScreenJSONRequestBody defines body for CreatGroupScreen for application/json ContentType.
+type CreatGroupScreenJSONRequestBody = GroupsScreenRequestBody
 
 // PostScreensLoginJSONRequestBody defines body for PostScreensLogin for application/json ContentType.
 type PostScreensLoginJSONRequestBody = LoginRequestBody

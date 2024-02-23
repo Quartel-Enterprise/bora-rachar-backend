@@ -10,7 +10,7 @@ import (
 	"net/http"
 )
 
-func PutCommentariesCommentaryId(w http.ResponseWriter, r *http.Request, commentaryId string, db *sqlx.DB) {
+func UpdateCommentary(w http.ResponseWriter, r *http.Request, commentaryId string, db *sqlx.DB) {
 	var requestBody swagger.ExpenseCommentRequestBody
 
 	if err := json.NewDecoder(r.Body).Decode(&requestBody); err != nil {

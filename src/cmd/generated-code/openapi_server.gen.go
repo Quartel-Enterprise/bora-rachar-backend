@@ -16,10 +16,22 @@ import (
 type ServerInterface interface {
 
 	// (DELETE /commentaries/{commentaryId})
-	DeleteCommentariesCommentaryId(w http.ResponseWriter, r *http.Request, commentaryId string)
+	DeleteCommentary(w http.ResponseWriter, r *http.Request, commentaryId string)
 
 	// (PUT /commentaries/{commentaryId})
-	PutCommentariesCommentaryId(w http.ResponseWriter, r *http.Request, commentaryId string)
+	UpdateCommentary(w http.ResponseWriter, r *http.Request, commentaryId string)
+
+	// (DELETE /groups/{groupId})
+	DeleteGroup(w http.ResponseWriter, r *http.Request, groupId string)
+
+	// (PUT /groups/{groupId})
+	UpdateGroup(w http.ResponseWriter, r *http.Request, groupId string)
+
+	// (DELETE /groups/{groupId}/participants/{userId})
+	RemoveParticipant(w http.ResponseWriter, r *http.Request, groupId string, userId string)
+
+	// (POST /groups/{groupId}/participants/{userId})
+	AddParticipant(w http.ResponseWriter, r *http.Request, groupId string, userId string)
 
 	// (GET /screens/activities)
 	GetScreensActivities(w http.ResponseWriter, r *http.Request, params GetScreensActivitiesParams)
@@ -31,7 +43,7 @@ type ServerInterface interface {
 	PostScreensContacts(w http.ResponseWriter, r *http.Request, params PostScreensContactsParams)
 
 	// (POST /screens/expenses)
-	PostScreensExpenses(w http.ResponseWriter, r *http.Request, params PostScreensExpensesParams)
+	CreatExpenseScreen(w http.ResponseWriter, r *http.Request, params CreatExpenseScreenParams)
 
 	// (DELETE /screens/expenses/{expenseId})
 	DeleteScreensExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId string, params DeleteScreensExpensesExpenseIdParams)
@@ -40,16 +52,16 @@ type ServerInterface interface {
 	PutScreensExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId string, params PutScreensExpensesExpenseIdParams)
 
 	// (POST /screens/expenses/{expenseId}/commentary)
-	PostScreensExpensesExpenseIdCommentary(w http.ResponseWriter, r *http.Request, expenseId string)
+	AddCommentary(w http.ResponseWriter, r *http.Request, expenseId string)
 
 	// (GET /screens/groups)
-	GetScreensGroups(w http.ResponseWriter, r *http.Request, params GetScreensGroupsParams)
+	GetGroupListScreen(w http.ResponseWriter, r *http.Request, params GetGroupListScreenParams)
 
 	// (POST /screens/groups)
-	PostScreensGroups(w http.ResponseWriter, r *http.Request, params PostScreensGroupsParams)
+	CreatGroupScreen(w http.ResponseWriter, r *http.Request, params CreatGroupScreenParams)
 
 	// (GET /screens/groups/{groupId})
-	GetScreensGroupsGroupId(w http.ResponseWriter, r *http.Request, groupId string, params GetScreensGroupsGroupIdParams)
+	GetGroupScreen(w http.ResponseWriter, r *http.Request, groupId string, params GetGroupScreenParams)
 
 	// (POST /screens/login)
 	PostScreensLogin(w http.ResponseWriter, r *http.Request)
@@ -69,12 +81,32 @@ type ServerInterface interface {
 type Unimplemented struct{}
 
 // (DELETE /commentaries/{commentaryId})
-func (_ Unimplemented) DeleteCommentariesCommentaryId(w http.ResponseWriter, r *http.Request, commentaryId string) {
+func (_ Unimplemented) DeleteCommentary(w http.ResponseWriter, r *http.Request, commentaryId string) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // (PUT /commentaries/{commentaryId})
-func (_ Unimplemented) PutCommentariesCommentaryId(w http.ResponseWriter, r *http.Request, commentaryId string) {
+func (_ Unimplemented) UpdateCommentary(w http.ResponseWriter, r *http.Request, commentaryId string) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// (DELETE /groups/{groupId})
+func (_ Unimplemented) DeleteGroup(w http.ResponseWriter, r *http.Request, groupId string) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// (PUT /groups/{groupId})
+func (_ Unimplemented) UpdateGroup(w http.ResponseWriter, r *http.Request, groupId string) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// (DELETE /groups/{groupId}/participants/{userId})
+func (_ Unimplemented) RemoveParticipant(w http.ResponseWriter, r *http.Request, groupId string, userId string) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// (POST /groups/{groupId}/participants/{userId})
+func (_ Unimplemented) AddParticipant(w http.ResponseWriter, r *http.Request, groupId string, userId string) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -94,7 +126,7 @@ func (_ Unimplemented) PostScreensContacts(w http.ResponseWriter, r *http.Reques
 }
 
 // (POST /screens/expenses)
-func (_ Unimplemented) PostScreensExpenses(w http.ResponseWriter, r *http.Request, params PostScreensExpensesParams) {
+func (_ Unimplemented) CreatExpenseScreen(w http.ResponseWriter, r *http.Request, params CreatExpenseScreenParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -109,22 +141,22 @@ func (_ Unimplemented) PutScreensExpensesExpenseId(w http.ResponseWriter, r *htt
 }
 
 // (POST /screens/expenses/{expenseId}/commentary)
-func (_ Unimplemented) PostScreensExpensesExpenseIdCommentary(w http.ResponseWriter, r *http.Request, expenseId string) {
+func (_ Unimplemented) AddCommentary(w http.ResponseWriter, r *http.Request, expenseId string) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // (GET /screens/groups)
-func (_ Unimplemented) GetScreensGroups(w http.ResponseWriter, r *http.Request, params GetScreensGroupsParams) {
+func (_ Unimplemented) GetGroupListScreen(w http.ResponseWriter, r *http.Request, params GetGroupListScreenParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // (POST /screens/groups)
-func (_ Unimplemented) PostScreensGroups(w http.ResponseWriter, r *http.Request, params PostScreensGroupsParams) {
+func (_ Unimplemented) CreatGroupScreen(w http.ResponseWriter, r *http.Request, params CreatGroupScreenParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // (GET /screens/groups/{groupId})
-func (_ Unimplemented) GetScreensGroupsGroupId(w http.ResponseWriter, r *http.Request, groupId string, params GetScreensGroupsGroupIdParams) {
+func (_ Unimplemented) GetGroupScreen(w http.ResponseWriter, r *http.Request, groupId string, params GetGroupScreenParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -157,8 +189,8 @@ type ServerInterfaceWrapper struct {
 
 type MiddlewareFunc func(http.Handler) http.Handler
 
-// DeleteCommentariesCommentaryId operation middleware
-func (siw *ServerInterfaceWrapper) DeleteCommentariesCommentaryId(w http.ResponseWriter, r *http.Request) {
+// DeleteCommentary operation middleware
+func (siw *ServerInterfaceWrapper) DeleteCommentary(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	var err error
@@ -175,7 +207,7 @@ func (siw *ServerInterfaceWrapper) DeleteCommentariesCommentaryId(w http.Respons
 	ctx = context.WithValue(ctx, BasicAuthScopes, []string{})
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.DeleteCommentariesCommentaryId(w, r, commentaryId)
+		siw.Handler.DeleteCommentary(w, r, commentaryId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -185,8 +217,8 @@ func (siw *ServerInterfaceWrapper) DeleteCommentariesCommentaryId(w http.Respons
 	handler.ServeHTTP(w, r.WithContext(ctx))
 }
 
-// PutCommentariesCommentaryId operation middleware
-func (siw *ServerInterfaceWrapper) PutCommentariesCommentaryId(w http.ResponseWriter, r *http.Request) {
+// UpdateCommentary operation middleware
+func (siw *ServerInterfaceWrapper) UpdateCommentary(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	var err error
@@ -203,7 +235,137 @@ func (siw *ServerInterfaceWrapper) PutCommentariesCommentaryId(w http.ResponseWr
 	ctx = context.WithValue(ctx, BasicAuthScopes, []string{})
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PutCommentariesCommentaryId(w, r, commentaryId)
+		siw.Handler.UpdateCommentary(w, r, commentaryId)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r.WithContext(ctx))
+}
+
+// DeleteGroup operation middleware
+func (siw *ServerInterfaceWrapper) DeleteGroup(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	var err error
+
+	// ------------- Path parameter "groupId" -------------
+	var groupId string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
+		return
+	}
+
+	ctx = context.WithValue(ctx, BasicAuthScopes, []string{})
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.DeleteGroup(w, r, groupId)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r.WithContext(ctx))
+}
+
+// UpdateGroup operation middleware
+func (siw *ServerInterfaceWrapper) UpdateGroup(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	var err error
+
+	// ------------- Path parameter "groupId" -------------
+	var groupId string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
+		return
+	}
+
+	ctx = context.WithValue(ctx, BasicAuthScopes, []string{})
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.UpdateGroup(w, r, groupId)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r.WithContext(ctx))
+}
+
+// RemoveParticipant operation middleware
+func (siw *ServerInterfaceWrapper) RemoveParticipant(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	var err error
+
+	// ------------- Path parameter "groupId" -------------
+	var groupId string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
+		return
+	}
+
+	// ------------- Path parameter "userId" -------------
+	var userId string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "userId", chi.URLParam(r, "userId"), &userId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "userId", Err: err})
+		return
+	}
+
+	ctx = context.WithValue(ctx, BasicAuthScopes, []string{})
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.RemoveParticipant(w, r, groupId, userId)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r.WithContext(ctx))
+}
+
+// AddParticipant operation middleware
+func (siw *ServerInterfaceWrapper) AddParticipant(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	var err error
+
+	// ------------- Path parameter "groupId" -------------
+	var groupId string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
+		return
+	}
+
+	// ------------- Path parameter "userId" -------------
+	var userId string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "userId", chi.URLParam(r, "userId"), &userId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "userId", Err: err})
+		return
+	}
+
+	ctx = context.WithValue(ctx, BasicAuthScopes, []string{})
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.AddParticipant(w, r, groupId, userId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -476,8 +638,8 @@ func (siw *ServerInterfaceWrapper) PostScreensContacts(w http.ResponseWriter, r 
 	handler.ServeHTTP(w, r.WithContext(ctx))
 }
 
-// PostScreensExpenses operation middleware
-func (siw *ServerInterfaceWrapper) PostScreensExpenses(w http.ResponseWriter, r *http.Request) {
+// CreatExpenseScreen operation middleware
+func (siw *ServerInterfaceWrapper) CreatExpenseScreen(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	var err error
@@ -485,7 +647,7 @@ func (siw *ServerInterfaceWrapper) PostScreensExpenses(w http.ResponseWriter, r 
 	ctx = context.WithValue(ctx, BasicAuthScopes, []string{})
 
 	// Parameter object where we will unmarshal all parameters from the context
-	var params PostScreensExpensesParams
+	var params CreatExpenseScreenParams
 
 	headers := r.Header
 
@@ -513,7 +675,7 @@ func (siw *ServerInterfaceWrapper) PostScreensExpenses(w http.ResponseWriter, r 
 	}
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PostScreensExpenses(w, r, params)
+		siw.Handler.CreatExpenseScreen(w, r, params)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -635,8 +797,8 @@ func (siw *ServerInterfaceWrapper) PutScreensExpensesExpenseId(w http.ResponseWr
 	handler.ServeHTTP(w, r.WithContext(ctx))
 }
 
-// PostScreensExpensesExpenseIdCommentary operation middleware
-func (siw *ServerInterfaceWrapper) PostScreensExpensesExpenseIdCommentary(w http.ResponseWriter, r *http.Request) {
+// AddCommentary operation middleware
+func (siw *ServerInterfaceWrapper) AddCommentary(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	var err error
@@ -653,7 +815,7 @@ func (siw *ServerInterfaceWrapper) PostScreensExpensesExpenseIdCommentary(w http
 	ctx = context.WithValue(ctx, BasicAuthScopes, []string{})
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PostScreensExpensesExpenseIdCommentary(w, r, expenseId)
+		siw.Handler.AddCommentary(w, r, expenseId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -663,8 +825,8 @@ func (siw *ServerInterfaceWrapper) PostScreensExpensesExpenseIdCommentary(w http
 	handler.ServeHTTP(w, r.WithContext(ctx))
 }
 
-// GetScreensGroups operation middleware
-func (siw *ServerInterfaceWrapper) GetScreensGroups(w http.ResponseWriter, r *http.Request) {
+// GetGroupListScreen operation middleware
+func (siw *ServerInterfaceWrapper) GetGroupListScreen(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	var err error
@@ -672,7 +834,7 @@ func (siw *ServerInterfaceWrapper) GetScreensGroups(w http.ResponseWriter, r *ht
 	ctx = context.WithValue(ctx, BasicAuthScopes, []string{})
 
 	// Parameter object where we will unmarshal all parameters from the context
-	var params GetScreensGroupsParams
+	var params GetGroupListScreenParams
 
 	headers := r.Header
 
@@ -700,7 +862,7 @@ func (siw *ServerInterfaceWrapper) GetScreensGroups(w http.ResponseWriter, r *ht
 	}
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetScreensGroups(w, r, params)
+		siw.Handler.GetGroupListScreen(w, r, params)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -710,8 +872,8 @@ func (siw *ServerInterfaceWrapper) GetScreensGroups(w http.ResponseWriter, r *ht
 	handler.ServeHTTP(w, r.WithContext(ctx))
 }
 
-// PostScreensGroups operation middleware
-func (siw *ServerInterfaceWrapper) PostScreensGroups(w http.ResponseWriter, r *http.Request) {
+// CreatGroupScreen operation middleware
+func (siw *ServerInterfaceWrapper) CreatGroupScreen(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	var err error
@@ -719,7 +881,7 @@ func (siw *ServerInterfaceWrapper) PostScreensGroups(w http.ResponseWriter, r *h
 	ctx = context.WithValue(ctx, BasicAuthScopes, []string{})
 
 	// Parameter object where we will unmarshal all parameters from the context
-	var params PostScreensGroupsParams
+	var params CreatGroupScreenParams
 
 	headers := r.Header
 
@@ -747,7 +909,7 @@ func (siw *ServerInterfaceWrapper) PostScreensGroups(w http.ResponseWriter, r *h
 	}
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PostScreensGroups(w, r, params)
+		siw.Handler.CreatGroupScreen(w, r, params)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -757,8 +919,8 @@ func (siw *ServerInterfaceWrapper) PostScreensGroups(w http.ResponseWriter, r *h
 	handler.ServeHTTP(w, r.WithContext(ctx))
 }
 
-// GetScreensGroupsGroupId operation middleware
-func (siw *ServerInterfaceWrapper) GetScreensGroupsGroupId(w http.ResponseWriter, r *http.Request) {
+// GetGroupScreen operation middleware
+func (siw *ServerInterfaceWrapper) GetGroupScreen(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	var err error
@@ -775,7 +937,7 @@ func (siw *ServerInterfaceWrapper) GetScreensGroupsGroupId(w http.ResponseWriter
 	ctx = context.WithValue(ctx, BasicAuthScopes, []string{})
 
 	// Parameter object where we will unmarshal all parameters from the context
-	var params GetScreensGroupsGroupIdParams
+	var params GetGroupScreenParams
 
 	// ------------- Required query parameter "page" -------------
 
@@ -833,7 +995,7 @@ func (siw *ServerInterfaceWrapper) GetScreensGroupsGroupId(w http.ResponseWriter
 	}
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetScreensGroupsGroupId(w, r, groupId, params)
+		siw.Handler.GetGroupScreen(w, r, groupId, params)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -1057,10 +1219,22 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 	}
 
 	r.Group(func(r chi.Router) {
-		r.Delete(options.BaseURL+"/commentaries/{commentaryId}", wrapper.DeleteCommentariesCommentaryId)
+		r.Delete(options.BaseURL+"/commentaries/{commentaryId}", wrapper.DeleteCommentary)
 	})
 	r.Group(func(r chi.Router) {
-		r.Put(options.BaseURL+"/commentaries/{commentaryId}", wrapper.PutCommentariesCommentaryId)
+		r.Put(options.BaseURL+"/commentaries/{commentaryId}", wrapper.UpdateCommentary)
+	})
+	r.Group(func(r chi.Router) {
+		r.Delete(options.BaseURL+"/groups/{groupId}", wrapper.DeleteGroup)
+	})
+	r.Group(func(r chi.Router) {
+		r.Put(options.BaseURL+"/groups/{groupId}", wrapper.UpdateGroup)
+	})
+	r.Group(func(r chi.Router) {
+		r.Delete(options.BaseURL+"/groups/{groupId}/participants/{userId}", wrapper.RemoveParticipant)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/groups/{groupId}/participants/{userId}", wrapper.AddParticipant)
 	})
 	r.Group(func(r chi.Router) {
 		r.Get(options.BaseURL+"/screens/activities", wrapper.GetScreensActivities)
@@ -1072,7 +1246,7 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 		r.Post(options.BaseURL+"/screens/contacts", wrapper.PostScreensContacts)
 	})
 	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/screens/expenses", wrapper.PostScreensExpenses)
+		r.Post(options.BaseURL+"/screens/expenses", wrapper.CreatExpenseScreen)
 	})
 	r.Group(func(r chi.Router) {
 		r.Delete(options.BaseURL+"/screens/expenses/{expenseId}", wrapper.DeleteScreensExpensesExpenseId)
@@ -1081,16 +1255,16 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 		r.Put(options.BaseURL+"/screens/expenses/{expenseId}", wrapper.PutScreensExpensesExpenseId)
 	})
 	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/screens/expenses/{expenseId}/commentary", wrapper.PostScreensExpensesExpenseIdCommentary)
+		r.Post(options.BaseURL+"/screens/expenses/{expenseId}/commentary", wrapper.AddCommentary)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/screens/groups", wrapper.GetScreensGroups)
+		r.Get(options.BaseURL+"/screens/groups", wrapper.GetGroupListScreen)
 	})
 	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/screens/groups", wrapper.PostScreensGroups)
+		r.Post(options.BaseURL+"/screens/groups", wrapper.CreatGroupScreen)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/screens/groups/{groupId}", wrapper.GetScreensGroupsGroupId)
+		r.Get(options.BaseURL+"/screens/groups/{groupId}", wrapper.GetGroupScreen)
 	})
 	r.Group(func(r chi.Router) {
 		r.Post(options.BaseURL+"/screens/login", wrapper.PostScreensLogin)

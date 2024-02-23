@@ -44,6 +44,7 @@ paths:
     get:
       tags:
         - Screens
+      operationId: getGroupListScreen
       parameters:
         - $ref: '#/components/parameters/user-id-header'
       responses:
@@ -56,6 +57,7 @@ paths:
     post:
       tags:
         - Screens
+      operationId: creatGroupScreen
       parameters:
         - $ref: '#/components/parameters/user-id-header'
       requestBody:
@@ -71,6 +73,7 @@ paths:
     get:
       tags:
         - Screens
+      operationId: getGroupScreen
       parameters:
         - $ref: '#/components/parameters/page'
         - $ref: '#/components/parameters/limit'
@@ -93,6 +96,7 @@ paths:
     post:
       tags:
         - Screens
+      operationId: creatExpenseScreen
       parameters:
         - $ref: '#/components/parameters/user-id-header'
       requestBody:
@@ -143,6 +147,7 @@ paths:
     post:
       tags:
         - Screens
+      operationId: addCommentary
       parameters:
         - in: path
           name: expenseId
@@ -214,6 +219,7 @@ paths:
     put:
       tags:
         - Commentary
+      operationId: updateCommentary
       parameters:
         - in: path
           name: commentaryId
@@ -232,6 +238,7 @@ paths:
     delete:
       tags:
         - Commentary
+      operationId: deleteCommentary
       parameters:
         - in: path
           name: commentaryId
@@ -293,6 +300,83 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UserRequestBody'
+      responses:
+        '200':
+          description: ok
+
+  /groups/{groupId}:
+    put:
+      tags:
+        - Groups
+      operationId: updateGroup
+      parameters:
+        - in: path
+          name: groupId
+          required: true
+          schema:
+            type: string
+            example: "groupId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupRequestBody'
+      responses:
+        '201':
+          description: created
+    delete:
+      tags:
+        - Groups
+      operationId: deleteGroup
+      parameters:
+        - in: path
+          name: groupId
+          required: true
+          schema:
+            type: string
+            example: "groupId"
+      responses:
+        '200':
+          description: ok
+
+  /groups/{groupId}/participants/{userId}:
+    post:
+      tags:
+        - Groups
+      operationId: addParticipant
+      parameters:
+        - in: path
+          name: groupId
+          required: true
+          schema:
+            type: string
+            example: "groupId"
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+            example: "userId"
+      responses:
+        '200':
+          description: ok
+    delete:
+      tags:
+        - Groups
+      operationId: removeParticipant
+      parameters:
+        - in: path
+          name: groupId
+          required: true
+          schema:
+            type: string
+            example: "groupId"
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+            example: "userId"
       responses:
         '200':
           description: ok
@@ -389,7 +473,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/GroupsScreenParticipantRequestBody'
-
+    GroupRequestBody:
+      required:
+        - name
+        - photo
+      properties:
+        name:
+          type: string
+        photo:
+          type: string
     GroupsScreenParticipantRequestBody:
       properties:
         userId:
