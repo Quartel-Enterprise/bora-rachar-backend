@@ -83,14 +83,19 @@ func (_ BoraRacharServer) GetGroupScreen(w http.ResponseWriter, r *http.Request,
 	flow.GetGroupScreen(w, r, groupId, params, MYSLQ)
 }
 
+// AddParticipant (POST /groups/{groupId}/participants)
+func (_ BoraRacharServer) AddParticipant(w http.ResponseWriter, r *http.Request, groupId string) {
+	flow.AddParticipant(w, r, groupId, MYSLQ)
+}
+
 // RemoveParticipant (DELETE /groups/{groupId}/participants/{userId})
 func (_ BoraRacharServer) RemoveParticipant(w http.ResponseWriter, r *http.Request, groupId string, userId string) {
 	flow.RemoveParticipant(w, r, groupId, userId, MYSLQ)
 }
 
-// AddParticipant (POST /groups/{groupId}/participants/{userId})
-func (_ BoraRacharServer) AddParticipant(w http.ResponseWriter, r *http.Request, groupId string, userId string) {
-	flow.AddParticipant(w, r, groupId, userId, MYSLQ)
+// UpdateParticipant (PUT /groups/{groupId}/participants/{userId})
+func (_ BoraRacharServer) UpdateParticipant(w http.ResponseWriter, r *http.Request, groupId string, userId string) {
+	flow.UpdateParticipant(w, r, groupId, userId, MYSLQ)
 }
 
 // GetUsers (GET /users)

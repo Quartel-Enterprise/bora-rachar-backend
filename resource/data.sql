@@ -13,12 +13,12 @@ INSERT INTO BORA_RACHAR.`group`(id, name, avatar, access_code, created_by, creat
 VALUES(2, 'Escalada', 'https://imagem', '', 1, '2006-01-02 15:04:05', NULL, NULL);
 
 
-INSERT INTO BORA_RACHAR.group_participant(id, user_id, group_id, is_admin, admission_date, deleted_at)
-VALUES(1, 1, 1, 0x30, '2006-01-02 15:04:05', NULL);
-INSERT INTO BORA_RACHAR.group_participant(id, user_id, group_id, is_admin, admission_date, deleted_at)
-VALUES(2, 2, 1, 0x30, '2006-01-02 15:04:05', NULL);
-INSERT INTO BORA_RACHAR.group_participant(id, user_id, group_id, is_admin, admission_date, deleted_at)
-VALUES(3, 3, 1, 0x31, '2006-01-02 15:04:05', NULL);
+INSERT INTO BORA_RACHAR.group_participant(id, user_id, group_id, is_admin, admission_date, updated_at, deleted_at)
+VALUES(1, 1, 1, 0x30, '2006-01-02 15:04:05', NULL, NULL);
+INSERT INTO BORA_RACHAR.group_participant(id, user_id, group_id, is_admin, admission_date, updated_at, deleted_at)
+VALUES(2, 2, 1, 0x30, '2006-01-02 15:04:05', NULL, NULL);
+INSERT INTO BORA_RACHAR.group_participant(id, user_id, group_id, is_admin, admission_date, updated_at, deleted_at)
+VALUES(3, 3, 1, 0x31, '2006-01-02 15:04:05', NULL, NULL);
 
 
 INSERT INTO BORA_RACHAR.expense(id, group_id, title, description, category, avatar, value, expense_date, created_by, created_at, payer, updated_at, deleted_at)

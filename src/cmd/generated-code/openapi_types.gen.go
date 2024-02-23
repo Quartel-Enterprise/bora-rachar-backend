@@ -236,6 +236,12 @@ type Pagination struct {
 	TotalRecords *float32 `json:"totalRecords,omitempty"`
 }
 
+// ParticipantRequestBody defines model for ParticipantRequestBody.
+type ParticipantRequestBody struct {
+	IsAdmin *bool  `json:"isAdmin,omitempty"`
+	UserId  string `json:"userId"`
+}
+
 // SummaryBalance defines model for SummaryBalance.
 type SummaryBalance struct {
 	AmountToPay     *float32 `json:"amountToPay,omitempty"`
@@ -333,6 +339,12 @@ type UpdateCommentaryJSONRequestBody = ExpenseCommentRequestBody
 
 // UpdateGroupJSONRequestBody defines body for UpdateGroup for application/json ContentType.
 type UpdateGroupJSONRequestBody = GroupRequestBody
+
+// AddParticipantJSONRequestBody defines body for AddParticipant for application/json ContentType.
+type AddParticipantJSONRequestBody = ParticipantRequestBody
+
+// UpdateParticipantJSONRequestBody defines body for UpdateParticipant for application/json ContentType.
+type UpdateParticipantJSONRequestBody = ParticipantRequestBody
 
 // PostScreensContactsJSONRequestBody defines body for PostScreensContacts for application/json ContentType.
 type PostScreensContactsJSONRequestBody = ContactsScreenRequestBody

@@ -339,11 +339,32 @@ paths:
         '200':
           description: ok
 
-  /groups/{groupId}/participants/{userId}:
+  /groups/{groupId}/participants:
     post:
       tags:
         - Groups
       operationId: addParticipant
+      parameters:
+        - in: path
+          name: groupId
+          required: true
+          schema:
+            type: string
+            example: "groupId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParticipantRequestBody'
+      responses:
+        '200':
+          description: ok
+
+  /groups/{groupId}/participants/{userId}:
+    put:
+      tags:
+        - Groups
+      operationId: updateParticipant
       parameters:
         - in: path
           name: groupId
@@ -357,6 +378,13 @@ paths:
           schema:
             type: string
             example: "userId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                isAdmin:
+                  type: string
       responses:
         '200':
           description: ok
@@ -800,6 +828,14 @@ components:
           type: string
         avatar:
           type: string
+    ParticipantRequestBody:
+      required:
+        - userId
+      properties:
+        userId:
+          type: string
+        isAdmin:
+          type: boolean
   parameters:
     limit:
       required: true

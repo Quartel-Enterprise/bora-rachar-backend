@@ -27,11 +27,14 @@ type ServerInterface interface {
 	// (PUT /groups/{groupId})
 	UpdateGroup(w http.ResponseWriter, r *http.Request, groupId string)
 
+	// (POST /groups/{groupId}/participants)
+	AddParticipant(w http.ResponseWriter, r *http.Request, groupId string)
+
 	// (DELETE /groups/{groupId}/participants/{userId})
 	RemoveParticipant(w http.ResponseWriter, r *http.Request, groupId string, userId string)
 
-	// (POST /groups/{groupId}/participants/{userId})
-	AddParticipant(w http.ResponseWriter, r *http.Request, groupId string, userId string)
+	// (PUT /groups/{groupId}/participants/{userId})
+	UpdateParticipant(w http.ResponseWriter, r *http.Request, groupId string, userId string)
 
 	// (GET /screens/activities)
 	GetScreensActivities(w http.ResponseWriter, r *http.Request, params GetScreensActivitiesParams)
@@ -100,13 +103,18 @@ func (_ Unimplemented) UpdateGroup(w http.ResponseWriter, r *http.Request, group
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
+// (POST /groups/{groupId}/participants)
+func (_ Unimplemented) AddParticipant(w http.ResponseWriter, r *http.Request, groupId string) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
 // (DELETE /groups/{groupId}/participants/{userId})
 func (_ Unimplemented) RemoveParticipant(w http.ResponseWriter, r *http.Request, groupId string, userId string) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// (POST /groups/{groupId}/participants/{userId})
-func (_ Unimplemented) AddParticipant(w http.ResponseWriter, r *http.Request, groupId string, userId string) {
+// (PUT /groups/{groupId}/participants/{userId})
+func (_ Unimplemented) UpdateParticipant(w http.ResponseWriter, r *http.Request, groupId string, userId string) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -301,6 +309,34 @@ func (siw *ServerInterfaceWrapper) UpdateGroup(w http.ResponseWriter, r *http.Re
 	handler.ServeHTTP(w, r.WithContext(ctx))
 }
 
+// AddParticipant operation middleware
+func (siw *ServerInterfaceWrapper) AddParticipant(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	var err error
+
+	// ------------- Path parameter "groupId" -------------
+	var groupId string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "groupId", chi.URLParam(r, "groupId"), &groupId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "groupId", Err: err})
+		return
+	}
+
+	ctx = context.WithValue(ctx, BasicAuthScopes, []string{})
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.AddParticipant(w, r, groupId)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r.WithContext(ctx))
+}
+
 // RemoveParticipant operation middleware
 func (siw *ServerInterfaceWrapper) RemoveParticipant(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
@@ -338,8 +374,8 @@ func (siw *ServerInterfaceWrapper) RemoveParticipant(w http.ResponseWriter, r *h
 	handler.ServeHTTP(w, r.WithContext(ctx))
 }
 
-// AddParticipant operation middleware
-func (siw *ServerInterfaceWrapper) AddParticipant(w http.ResponseWriter, r *http.Request) {
+// UpdateParticipant operation middleware
+func (siw *ServerInterfaceWrapper) UpdateParticipant(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	var err error
@@ -365,7 +401,7 @@ func (siw *ServerInterfaceWrapper) AddParticipant(w http.ResponseWriter, r *http
 	ctx = context.WithValue(ctx, BasicAuthScopes, []string{})
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.AddParticipant(w, r, groupId, userId)
+		siw.Handler.UpdateParticipant(w, r, groupId, userId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -1231,10 +1267,13 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 		r.Put(options.BaseURL+"/groups/{groupId}", wrapper.UpdateGroup)
 	})
 	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/groups/{groupId}/participants", wrapper.AddParticipant)
+	})
+	r.Group(func(r chi.Router) {
 		r.Delete(options.BaseURL+"/groups/{groupId}/participants/{userId}", wrapper.RemoveParticipant)
 	})
 	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/groups/{groupId}/participants/{userId}", wrapper.AddParticipant)
+		r.Put(options.BaseURL+"/groups/{groupId}/participants/{userId}", wrapper.UpdateParticipant)
 	})
 	r.Group(func(r chi.Router) {
 		r.Get(options.BaseURL+"/screens/activities", wrapper.GetScreensActivities)
