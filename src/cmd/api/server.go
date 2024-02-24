@@ -8,14 +8,14 @@ import (
 
 type BoraRacharServer struct{}
 
-// DeleteCommentariesCommentaryId (DELETE /commentaries/{commentaryId})
-func (_ BoraRacharServer) DeleteCommentariesCommentaryId(w http.ResponseWriter, r *http.Request, commentaryId string) {
-	flow.DeleteCommentariesCommentaryId(w, r, commentaryId, MYSLQ)
+// DeleteCommentary (DELETE /commentaries/{commentaryId})
+func (_ BoraRacharServer) DeleteCommentary(w http.ResponseWriter, r *http.Request, commentaryId string) {
+	flow.DeleteCommentary(w, r, commentaryId, MYSLQ)
 }
 
-// PutCommentariesCommentaryId (PUT /commentaries/{commentaryId})
-func (_ BoraRacharServer) PutCommentariesCommentaryId(w http.ResponseWriter, r *http.Request, commentaryId string) {
-	flow.PutCommentariesCommentaryId(w, r, commentaryId, MYSLQ)
+// UpdateCommentary (PUT /commentaries/{commentaryId})
+func (_ BoraRacharServer) UpdateCommentary(w http.ResponseWriter, r *http.Request, commentaryId string) {
+	flow.UpdateCommentary(w, r, commentaryId, MYSLQ)
 }
 
 // PostScreensLogin (POST /screen/login)
@@ -38,52 +38,77 @@ func (_ BoraRacharServer) PostScreensContacts(w http.ResponseWriter, r *http.Req
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// PostScreensExpenses (POST /screens/expenses)
-func (_ BoraRacharServer) PostScreensExpenses(w http.ResponseWriter, r *http.Request, params swagger.PostScreensExpensesParams) {
-	flow.PostScreensExpenses(w, r, params, MYSLQ)
+// CreatExpenseScreen (POST /screens/expenses)
+func (_ BoraRacharServer) CreatExpenseScreen(w http.ResponseWriter, r *http.Request, params swagger.CreatExpenseScreenParams) {
+	flow.CreatExpenseScreen(w, r, params, MYSLQ)
 }
 
-// DeleteScreensExpensesExpenseId (DELETE /screens/expenses/{expenseId})
-func (_ BoraRacharServer) DeleteScreensExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId string, params swagger.DeleteScreensExpensesExpenseIdParams) {
-	w.WriteHeader(http.StatusNotImplemented)
+// DeleteExpenseScreen (DELETE /screens/expenses/{expenseId})
+func (_ BoraRacharServer) DeleteExpenseScreen(w http.ResponseWriter, r *http.Request, expenseId string) {
+	flow.DeleteExpenseScreen(w, r, expenseId, MYSLQ)
 }
 
-// PutScreensExpensesExpenseId (PUT /screens/expenses/{expenseId})
-func (_ BoraRacharServer) PutScreensExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId string, params swagger.PutScreensExpensesExpenseIdParams) {
-	w.WriteHeader(http.StatusNotImplemented)
+// UpdateExpenseScreen (PUT /screens/expenses/{expenseId})
+func (_ BoraRacharServer) UpdateExpenseScreen(w http.ResponseWriter, r *http.Request, expenseId string) {
+	flow.UpdateExpenseScreen(w, r, expenseId, MYSLQ)
 }
 
-// PostScreensExpensesExpenseIdCommentary (POST /screens/expenses/{expenseId}/commentary)
-func (_ BoraRacharServer) PostScreensExpensesExpenseIdCommentary(w http.ResponseWriter, r *http.Request, expenseId string) {
-	flow.PostScreensExpensesExpenseIdCommentary(w, r, expenseId, MYSLQ)
+// AddCommentary (POST /screens/expenses/{expenseId}/commentary)
+func (_ BoraRacharServer) AddCommentary(w http.ResponseWriter, r *http.Request, expenseId string) {
+	flow.AddCommentary(w, r, expenseId, MYSLQ)
 }
 
-// GetScreensGroups (GET /screens/groups)
-func (_ BoraRacharServer) GetScreensGroups(w http.ResponseWriter, r *http.Request, params swagger.GetScreensGroupsParams) {
-	flow.GetScreensGroups(w, r, params, MYSLQ)
+// DeleteGroup (DELETE /groups/{groupId})
+func (_ BoraRacharServer) DeleteGroup(w http.ResponseWriter, r *http.Request, groupId string) {
+	flow.DeleteGroup(w, r, groupId, MYSLQ)
 }
 
-// PostScreensGroups (POST /screens/groups)
-func (_ BoraRacharServer) PostScreensGroups(w http.ResponseWriter, r *http.Request, params swagger.PostScreensGroupsParams) {
-	flow.PostScreensGroups(w, r, params, MYSLQ)
+// UpdateGroup (PUT /groups/{groupId})
+func (_ BoraRacharServer) UpdateGroup(w http.ResponseWriter, r *http.Request, groupId string) {
+	flow.UpdateGroup(w, r, groupId, MYSLQ)
 }
 
-// GetScreensGroupsGroupId (GET /screens/groups/{groupId})
-func (_ BoraRacharServer) GetScreensGroupsGroupId(w http.ResponseWriter, r *http.Request, groupId string, params swagger.GetScreensGroupsGroupIdParams) {
-	flow.GetScreensGroupsGroupId(w, r, groupId, params, MYSLQ)
+// GetGroupListScreen (GET /screens/groups)
+func (_ BoraRacharServer) GetGroupListScreen(w http.ResponseWriter, r *http.Request, params swagger.GetGroupListScreenParams) {
+	flow.GetGroupListScreen(w, r, params, MYSLQ)
 }
 
-// (GET /users)
+// CreatGroupScreen (POST /screens/groups)
+func (_ BoraRacharServer) CreatGroupScreen(w http.ResponseWriter, r *http.Request, params swagger.CreatGroupScreenParams) {
+	flow.CreatGroupScreen(w, r, params, MYSLQ)
+}
+
+// GetGroupScreen (GET /screens/groups/{groupId})
+func (_ BoraRacharServer) GetGroupScreen(w http.ResponseWriter, r *http.Request, groupId string, params swagger.GetGroupScreenParams) {
+	flow.GetGroupScreen(w, r, groupId, params, MYSLQ)
+}
+
+// AddParticipant (POST /groups/{groupId}/participants)
+func (_ BoraRacharServer) AddParticipant(w http.ResponseWriter, r *http.Request, groupId string) {
+	flow.AddParticipant(w, r, groupId, MYSLQ)
+}
+
+// RemoveParticipant (DELETE /groups/{groupId}/participants/{userId})
+func (_ BoraRacharServer) RemoveParticipant(w http.ResponseWriter, r *http.Request, groupId string, userId string) {
+	flow.RemoveParticipant(w, r, groupId, userId, MYSLQ)
+}
+
+// UpdateParticipant (PUT /groups/{groupId}/participants/{userId})
+func (_ BoraRacharServer) UpdateParticipant(w http.ResponseWriter, r *http.Request, groupId string, userId string) {
+	flow.UpdateParticipant(w, r, groupId, userId, MYSLQ)
+}
+
+// GetUsers (GET /users)
 func (_ BoraRacharServer) GetUsers(w http.ResponseWriter, r *http.Request, params swagger.GetUsersParams) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// (POST /users)
+// PostUsers (POST /users)
 func (_ BoraRacharServer) PostUsers(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// (PUT /users/{userId})
+// PutUsersUserId (PUT /users/{userId})
 func (_ BoraRacharServer) PutUsersUserId(w http.ResponseWriter, r *http.Request, userId string) {
 	w.WriteHeader(http.StatusNotImplemented)
 }

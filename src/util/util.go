@@ -24,7 +24,7 @@ func NilIfStringEmpty(value *string) *string {
 
 func HttpResponse(w http.ResponseWriter, status int, err error) {
 	if err != nil {
-		logger.Error.Println(err.Error())
+		logger.Error.Println(err)
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
@@ -32,7 +32,7 @@ func HttpResponse(w http.ResponseWriter, status int, err error) {
 
 func HttpResponseWihBody(w http.ResponseWriter, status int, body interface{}, err error) {
 	if err != nil {
-		logger.Error.Println(err.Error())
+		logger.Error.Println(err)
 	}
 
 	w.Header().Set("Content-Type", "application/json")

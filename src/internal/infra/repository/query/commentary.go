@@ -2,6 +2,7 @@ package repository_query
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"github.com/jmoiron/sqlx"
 	"time"
@@ -16,7 +17,7 @@ func AddCommentary(ctx context.Context, userId string, commentary string, expens
 	)
 
 	if err != nil {
-		return fmt.Errorf("error when inserting comment: %s", err.Error())
+		return errors.New(fmt.Sprintf("error when inserting comment: %s", err))
 	}
 
 	return nil
@@ -32,7 +33,7 @@ func UpdateCommentary(ctx context.Context, commentary string, commentaryId strin
 	)
 
 	if err != nil {
-		return fmt.Errorf("error when updating comment: %s", err.Error())
+		return errors.New(fmt.Sprintf("error when updating comment: %s", err))
 	}
 
 	return nil
@@ -48,7 +49,7 @@ func DeleteCommentary(ctx context.Context, id string, db *sqlx.DB) error {
 	)
 
 	if err != nil {
-		return fmt.Errorf("error when deleting comment: %s", err.Error())
+		return errors.New(fmt.Sprintf("error when deleting comment: %s", err))
 	}
 
 	return nil

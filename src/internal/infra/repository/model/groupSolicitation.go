@@ -1,12 +1,11 @@
 package repository_model
 
 import (
-	"math/big"
 	"time"
 )
 
 type GroupSolicitation struct {
-	id        big.Int
+	id        string
 	userId    string
 	groupId   string
 	createdAt time.Time

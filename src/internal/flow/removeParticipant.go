@@ -8,10 +8,11 @@ import (
 	"net/http"
 )
 
-func DeleteCommentariesCommentaryId(w http.ResponseWriter, r *http.Request, commentaryId string, db *sqlx.DB) {
-	if err := repository_query.DeleteCommentary(context.Background(), commentaryId, db); err != nil {
+func RemoveParticipant(w http.ResponseWriter, r *http.Request, groupId string, userId string, db *sqlx.DB) {
+	if err := repository_query.RemoveParticipant(context.Background(), userId, groupId, db); err != nil {
 		util.HttpResponse(w, http.StatusInternalServerError, err)
+		return
 	}
 
-	util.HttpResponse(w, http.StatusCreated, nil)
+	util.HttpResponse(w, http.StatusOK, nil)
 }

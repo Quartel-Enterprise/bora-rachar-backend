@@ -1,11 +1,7 @@
 package repository_model
 
-import (
-	"math/big"
-)
-
 type ExpensePaymentSplit struct {
-	Id            big.Int
+	Id            string
 	UserId        string `db:"user_id"`
 	ExpenseId     string `db:"expense_id"`
 	Value         float32
