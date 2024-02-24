@@ -275,6 +275,11 @@ type Page = int
 // UserIdHeader defines model for user-id-header.
 type UserIdHeader = string
 
+// UpdateParticipantJSONBody defines parameters for UpdateParticipant.
+type UpdateParticipantJSONBody struct {
+	IsAdmin *string `json:"isAdmin,omitempty"`
+}
+
 // GetScreensActivitiesParams defines parameters for GetScreensActivities.
 type GetScreensActivitiesParams struct {
 	Page   Page         `form:"page" json:"page"`
@@ -298,16 +303,6 @@ type PostScreensContactsParams struct {
 
 // CreatExpenseScreenParams defines parameters for CreatExpenseScreen.
 type CreatExpenseScreenParams struct {
-	UserId UserIdHeader `json:"userId"`
-}
-
-// DeleteScreensExpensesExpenseIdParams defines parameters for DeleteScreensExpensesExpenseId.
-type DeleteScreensExpensesExpenseIdParams struct {
-	UserId UserIdHeader `json:"userId"`
-}
-
-// PutScreensExpensesExpenseIdParams defines parameters for PutScreensExpensesExpenseId.
-type PutScreensExpensesExpenseIdParams struct {
 	UserId UserIdHeader `json:"userId"`
 }
 
@@ -344,7 +339,7 @@ type UpdateGroupJSONRequestBody = GroupRequestBody
 type AddParticipantJSONRequestBody = ParticipantRequestBody
 
 // UpdateParticipantJSONRequestBody defines body for UpdateParticipant for application/json ContentType.
-type UpdateParticipantJSONRequestBody = ParticipantRequestBody
+type UpdateParticipantJSONRequestBody UpdateParticipantJSONBody
 
 // PostScreensContactsJSONRequestBody defines body for PostScreensContacts for application/json ContentType.
 type PostScreensContactsJSONRequestBody = ContactsScreenRequestBody
@@ -352,8 +347,8 @@ type PostScreensContactsJSONRequestBody = ContactsScreenRequestBody
 // CreatExpenseScreenJSONRequestBody defines body for CreatExpenseScreen for application/json ContentType.
 type CreatExpenseScreenJSONRequestBody = ExpenseScreenRequestBody
 
-// PutScreensExpensesExpenseIdJSONRequestBody defines body for PutScreensExpensesExpenseId for application/json ContentType.
-type PutScreensExpensesExpenseIdJSONRequestBody = ExpenseScreenRequestBody
+// UpdateExpenseScreenJSONRequestBody defines body for UpdateExpenseScreen for application/json ContentType.
+type UpdateExpenseScreenJSONRequestBody = ExpenseScreenRequestBody
 
 // AddCommentaryJSONRequestBody defines body for AddCommentary for application/json ContentType.
 type AddCommentaryJSONRequestBody = ExpenseCommentRequestBody

@@ -15,12 +15,65 @@ import (
 
 func CreatExpenseScreen(w http.ResponseWriter, r *http.Request, params swagger.CreatExpenseScreenParams, db *sqlx.DB) {
 	var userId = params.UserId
+	var expense, paymentSplit, err = mapInputToDatabaseObject(r)
+
+	if err != nil {
+		util.HttpResponse(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	if err := repository_query.CreatExpenseWithPaymentSplit(context.Background(), db, userId, expense, paymentSplit); err != nil {
+		util.HttpResponse(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	util.HttpResponse(w, http.StatusCreated, nil)
+}
+
+func UpdateExpenseScreen(w http.ResponseWriter, r *http.Request, expenseId string, db *sqlx.DB) {
+	expense, paymentSplit, err := mapInputToDatabaseObject(r)
+
+	if err != nil {
+		util.HttpResponse(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	expense.Id = expenseId
+
+	var updateSplitPayment = false
+	oldExpense, err := repository_query.GetExpense(context.Background(), expenseId, db)
+
+	if oldExpense.Value != expense.Value {
+		updateSplitPayment = true
+	} else {
+		oldExpenseSplit, err := repository_query.GetExpensePaymentSplit(context.Background(), expenseId, db)
+		if err != nil {
+			util.HttpResponse(w, http.StatusInternalServerError, err)
+			return
+		}
+
+		updateSplitPayment = hasSplitChange(oldExpenseSplit, paymentSplit)
+	}
+
+	if err != nil {
+		util.HttpResponse(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	if err := repository_query.UpdateExpenseWithPaymentSplit(context.Background(), expense, paymentSplit, updateSplitPayment, db); err != nil {
+		util.HttpResponse(w, http.StatusInternalServerError, err)
+	}
+
+	util.HttpResponse(w, http.StatusCreated, nil)
+}
+
+func mapInputToDatabaseObject(r *http.Request) (repository_model.Expense, []repository_model.ExpensePaymentSplit, error) {
 	var requestBody swagger.ExpenseScreenRequestBody
 	var expense repository_model.Expense
 	var paymentSplit = make([]repository_model.ExpensePaymentSplit, len(requestBody.Participants))
 
 	if err := json.NewDecoder(r.Body).Decode(&requestBody); err != nil {
-		util.HttpResponse(w, http.StatusInternalServerError, err)
+		return repository_model.Expense{}, nil, err
 	}
 
 	expense = mapToExpense(requestBody)
@@ -38,11 +91,7 @@ func CreatExpenseScreen(w http.ResponseWriter, r *http.Request, params swagger.C
 		}
 	}
 
-	if err := repository_query.CreatExpenseWithPaymentSplit(context.Background(), db, userId, expense, paymentSplit); err != nil {
-		util.HttpResponse(w, http.StatusInternalServerError, err)
-	}
-
-	util.HttpResponse(w, http.StatusCreated, nil)
+	return expense, paymentSplit, nil
 }
 
 func mapToExpenseSplit(userId string, value float32) repository_model.ExpensePaymentSplit {
@@ -70,4 +119,15 @@ func mapToExpense(expenseScreenRequestBody swagger.ExpenseScreenRequestBody) rep
 		ExpenseDate: expenseDate,
 		CreatedBy:   expenseScreenRequestBody.Payer,
 	}
+}
+
+func hasSplitChange(old []repository_model.ExpensePaymentSplit, new []repository_model.ExpensePaymentSplit) bool {
+	for _, o := range old {
+		for _, n := range new {
+			if (o.UserId == n.UserId) && (o.Value != n.Value) {
+				return true
+			}
+		}
+	}
+	return false
 }

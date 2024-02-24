@@ -43,14 +43,14 @@ func (_ BoraRacharServer) CreatExpenseScreen(w http.ResponseWriter, r *http.Requ
 	flow.CreatExpenseScreen(w, r, params, MYSLQ)
 }
 
-// DeleteScreensExpensesExpenseId (DELETE /screens/expenses/{expenseId})
-func (_ BoraRacharServer) DeleteScreensExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId string, params swagger.DeleteScreensExpensesExpenseIdParams) {
-	w.WriteHeader(http.StatusNotImplemented)
+// DeleteExpenseScreen (DELETE /screens/expenses/{expenseId})
+func (_ BoraRacharServer) DeleteExpenseScreen(w http.ResponseWriter, r *http.Request, expenseId string) {
+	flow.DeleteExpenseScreen(w, r, expenseId, MYSLQ)
 }
 
-// PutScreensExpensesExpenseId (PUT /screens/expenses/{expenseId})
-func (_ BoraRacharServer) PutScreensExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId string, params swagger.PutScreensExpensesExpenseIdParams) {
-	w.WriteHeader(http.StatusNotImplemented)
+// UpdateExpenseScreen (PUT /screens/expenses/{expenseId})
+func (_ BoraRacharServer) UpdateExpenseScreen(w http.ResponseWriter, r *http.Request, expenseId string) {
+	flow.UpdateExpenseScreen(w, r, expenseId, MYSLQ)
 }
 
 // AddCommentary (POST /screens/expenses/{expenseId}/commentary)

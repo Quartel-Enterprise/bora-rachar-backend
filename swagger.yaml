@@ -112,8 +112,8 @@ paths:
     put:
       tags:
         - Screens
+      operationId: updateExpenseScreen
       parameters:
-        - $ref: '#/components/parameters/user-id-header'
         - in: path
           name: expenseId
           required: true
@@ -131,8 +131,8 @@ paths:
     delete:
       tags:
         - Screens
+      operationId: deleteExpenseScreen
       parameters:
-        - $ref: '#/components/parameters/user-id-header'
         - in: path
           name: expenseId
           required: true

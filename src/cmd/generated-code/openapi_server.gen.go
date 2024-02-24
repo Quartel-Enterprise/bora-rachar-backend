@@ -49,10 +49,10 @@ type ServerInterface interface {
 	CreatExpenseScreen(w http.ResponseWriter, r *http.Request, params CreatExpenseScreenParams)
 
 	// (DELETE /screens/expenses/{expenseId})
-	DeleteScreensExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId string, params DeleteScreensExpensesExpenseIdParams)
+	DeleteExpenseScreen(w http.ResponseWriter, r *http.Request, expenseId string)
 
 	// (PUT /screens/expenses/{expenseId})
-	PutScreensExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId string, params PutScreensExpensesExpenseIdParams)
+	UpdateExpenseScreen(w http.ResponseWriter, r *http.Request, expenseId string)
 
 	// (POST /screens/expenses/{expenseId}/commentary)
 	AddCommentary(w http.ResponseWriter, r *http.Request, expenseId string)
@@ -139,12 +139,12 @@ func (_ Unimplemented) CreatExpenseScreen(w http.ResponseWriter, r *http.Request
 }
 
 // (DELETE /screens/expenses/{expenseId})
-func (_ Unimplemented) DeleteScreensExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId string, params DeleteScreensExpensesExpenseIdParams) {
+func (_ Unimplemented) DeleteExpenseScreen(w http.ResponseWriter, r *http.Request, expenseId string) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // (PUT /screens/expenses/{expenseId})
-func (_ Unimplemented) PutScreensExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId string, params PutScreensExpensesExpenseIdParams) {
+func (_ Unimplemented) UpdateExpenseScreen(w http.ResponseWriter, r *http.Request, expenseId string) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -721,8 +721,8 @@ func (siw *ServerInterfaceWrapper) CreatExpenseScreen(w http.ResponseWriter, r *
 	handler.ServeHTTP(w, r.WithContext(ctx))
 }
 
-// DeleteScreensExpensesExpenseId operation middleware
-func (siw *ServerInterfaceWrapper) DeleteScreensExpensesExpenseId(w http.ResponseWriter, r *http.Request) {
+// DeleteExpenseScreen operation middleware
+func (siw *ServerInterfaceWrapper) DeleteExpenseScreen(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	var err error
@@ -738,36 +738,8 @@ func (siw *ServerInterfaceWrapper) DeleteScreensExpensesExpenseId(w http.Respons
 
 	ctx = context.WithValue(ctx, BasicAuthScopes, []string{})
 
-	// Parameter object where we will unmarshal all parameters from the context
-	var params DeleteScreensExpensesExpenseIdParams
-
-	headers := r.Header
-
-	// ------------- Required header parameter "userId" -------------
-	if valueList, found := headers[http.CanonicalHeaderKey("userId")]; found {
-		var UserId UserIdHeader
-		n := len(valueList)
-		if n != 1 {
-			siw.ErrorHandlerFunc(w, r, &TooManyValuesForParamError{ParamName: "userId", Count: n})
-			return
-		}
-
-		err = runtime.BindStyledParameterWithOptions("simple", "userId", valueList[0], &UserId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: true})
-		if err != nil {
-			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "userId", Err: err})
-			return
-		}
-
-		params.UserId = UserId
-
-	} else {
-		err := fmt.Errorf("Header parameter userId is required, but not found")
-		siw.ErrorHandlerFunc(w, r, &RequiredHeaderError{ParamName: "userId", Err: err})
-		return
-	}
-
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.DeleteScreensExpensesExpenseId(w, r, expenseId, params)
+		siw.Handler.DeleteExpenseScreen(w, r, expenseId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -777,8 +749,8 @@ func (siw *ServerInterfaceWrapper) DeleteScreensExpensesExpenseId(w http.Respons
 	handler.ServeHTTP(w, r.WithContext(ctx))
 }
 
-// PutScreensExpensesExpenseId operation middleware
-func (siw *ServerInterfaceWrapper) PutScreensExpensesExpenseId(w http.ResponseWriter, r *http.Request) {
+// UpdateExpenseScreen operation middleware
+func (siw *ServerInterfaceWrapper) UpdateExpenseScreen(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	var err error
@@ -794,36 +766,8 @@ func (siw *ServerInterfaceWrapper) PutScreensExpensesExpenseId(w http.ResponseWr
 
 	ctx = context.WithValue(ctx, BasicAuthScopes, []string{})
 
-	// Parameter object where we will unmarshal all parameters from the context
-	var params PutScreensExpensesExpenseIdParams
-
-	headers := r.Header
-
-	// ------------- Required header parameter "userId" -------------
-	if valueList, found := headers[http.CanonicalHeaderKey("userId")]; found {
-		var UserId UserIdHeader
-		n := len(valueList)
-		if n != 1 {
-			siw.ErrorHandlerFunc(w, r, &TooManyValuesForParamError{ParamName: "userId", Count: n})
-			return
-		}
-
-		err = runtime.BindStyledParameterWithOptions("simple", "userId", valueList[0], &UserId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: true})
-		if err != nil {
-			siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "userId", Err: err})
-			return
-		}
-
-		params.UserId = UserId
-
-	} else {
-		err := fmt.Errorf("Header parameter userId is required, but not found")
-		siw.ErrorHandlerFunc(w, r, &RequiredHeaderError{ParamName: "userId", Err: err})
-		return
-	}
-
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PutScreensExpensesExpenseId(w, r, expenseId, params)
+		siw.Handler.UpdateExpenseScreen(w, r, expenseId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -1288,10 +1232,10 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 		r.Post(options.BaseURL+"/screens/expenses", wrapper.CreatExpenseScreen)
 	})
 	r.Group(func(r chi.Router) {
-		r.Delete(options.BaseURL+"/screens/expenses/{expenseId}", wrapper.DeleteScreensExpensesExpenseId)
+		r.Delete(options.BaseURL+"/screens/expenses/{expenseId}", wrapper.DeleteExpenseScreen)
 	})
 	r.Group(func(r chi.Router) {
-		r.Put(options.BaseURL+"/screens/expenses/{expenseId}", wrapper.PutScreensExpensesExpenseId)
+		r.Put(options.BaseURL+"/screens/expenses/{expenseId}", wrapper.UpdateExpenseScreen)
 	})
 	r.Group(func(r chi.Router) {
 		r.Post(options.BaseURL+"/screens/expenses/{expenseId}/commentary", wrapper.AddCommentary)
