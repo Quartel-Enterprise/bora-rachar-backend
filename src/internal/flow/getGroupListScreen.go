@@ -25,7 +25,7 @@ func GetGroupListScreen(w http.ResponseWriter, r *http.Request, params swagger.G
 	}
 
 	for _, g := range groups {
-		participants, err := repository_query.GetParticipants(g.Id, db)
+		participants, err := repository_query.GetParticipants(context.Background(), g.Id, db)
 		if err != nil {
 			util.HttpResponse(w, http.StatusInternalServerError, err)
 			return
