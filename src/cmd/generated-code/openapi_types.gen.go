@@ -108,70 +108,57 @@ type ExpenseScreenRequestBodyDivisionType string
 
 // GroupDetailsScreenBalance defines model for GroupDetailsScreenBalance.
 type GroupDetailsScreenBalance struct {
-	AmountToPay *struct {
-		PayTo *[]struct {
-			UserId    *string  `json:"userId,omitempty"`
-			UserName  *string  `json:"userName,omitempty"`
-			UserPhoto *string  `json:"userPhoto,omitempty"`
-			Value     *float32 `json:"value,omitempty"`
-		} `json:"payTo,omitempty"`
-		Value *float32 `json:"value,omitempty"`
-	} `json:"amountToPay,omitempty"`
-	AmountToReceive *struct {
-		ReceiveFrom *[]struct {
-			UserId    *string  `json:"userId,omitempty"`
-			UserName  *string  `json:"userName,omitempty"`
-			UserPhoto *string  `json:"userPhoto,omitempty"`
-			Value     *float32 `json:"value,omitempty"`
-		} `json:"receiveFrom,omitempty"`
-		Value *float32 `json:"value,omitempty"`
-	} `json:"amountToReceive,omitempty"`
+	AmountToPay     *[]GroupDetailsScreenBalanceExpenseSplit `json:"amountToPay,omitempty"`
+	AmountToReceive *[]GroupDetailsScreenBalanceExpenseSplit `json:"amountToReceive,omitempty"`
+}
+
+// GroupDetailsScreenBalanceExpenseSplit defines model for GroupDetailsScreenBalanceExpenseSplit.
+type GroupDetailsScreenBalanceExpenseSplit struct {
+	UserId *string  `json:"userId,omitempty"`
+	Value  *float32 `json:"value,omitempty"`
 }
 
 // GroupDetailsScreenExpense defines model for GroupDetailsScreenExpense.
 type GroupDetailsScreenExpense struct {
-	Category   *ExpenseCategory `json:"category,omitempty"`
-	Commentary *[]struct {
-		Commentary   *string    `json:"commentary,omitempty"`
-		CommentaryId *string    `json:"commentaryId,omitempty"`
-		Date         *time.Time `json:"date,omitempty"`
-		UserId       *string    `json:"userId,omitempty"`
-		UserName     *string    `json:"userName,omitempty"`
-		UserPhoto    *string    `json:"userPhoto,omitempty"`
-	} `json:"commentary,omitempty"`
-	CreatedAt *time.Time `json:"createdAt,omitempty"`
-	CreatedBy *struct {
-		UserId    *string `json:"userId,omitempty"`
-		UserName  *string `json:"userName,omitempty"`
-		UserPhoto *string `json:"userPhoto,omitempty"`
-	} `json:"createdBy,omitempty"`
-	Description *string `json:"description,omitempty"`
-	Id          *string `json:"id,omitempty"`
-	Involved    *[]struct {
-		Balance      *float32 `json:"balance,omitempty"`
-		IsDebtSetted *bool    `json:"isDebtSetted,omitempty"`
-		UserId       *string  `json:"userId,omitempty"`
-		UserName     *string  `json:"userName,omitempty"`
-		UserPhoto    *string  `json:"userPhoto,omitempty"`
-	} `json:"involved,omitempty"`
+	Borrowed *[]struct {
+		ExpensePaymentSplitId *string  `json:"expensePaymentSplitId,omitempty"`
+		IsDebtSetted          *bool    `json:"isDebtSetted,omitempty"`
+		UserId                *string  `json:"userId,omitempty"`
+		Value                 *float32 `json:"value,omitempty"`
+	} `json:"borrowed,omitempty"`
+	Category    *ExpenseCategory `json:"category,omitempty"`
+	CreatedAt   *time.Time       `json:"createdAt,omitempty"`
+	CreatedBy   *string          `json:"createdBy,omitempty"`
+	Description *string          `json:"description,omitempty"`
+	Id          *string          `json:"id,omitempty"`
+	Payer       *struct {
+		UserId *string  `json:"userId,omitempty"`
+		Value  *float32 `json:"value,omitempty"`
+	} `json:"payer,omitempty"`
 	Photo *string `json:"photo,omitempty"`
+}
+
+// GroupDetailsScreenGroupInfo defines model for GroupDetailsScreenGroupInfo.
+type GroupDetailsScreenGroupInfo struct {
+	Expenses     *[]GroupDetailsScreenExpense     `json:"expenses,omitempty"`
+	Id           *string                          `json:"id,omitempty"`
+	Name         *string                          `json:"name,omitempty"`
+	Participants *[]GroupDetailsScreenParticipant `json:"participants,omitempty"`
+	Photo        *string                          `json:"photo,omitempty"`
+}
+
+// GroupDetailsScreenParticipant defines model for GroupDetailsScreenParticipant.
+type GroupDetailsScreenParticipant struct {
+	Balance   *GroupDetailsScreenBalance `json:"balance,omitempty"`
+	UserId    *string                    `json:"userId,omitempty"`
+	UserName  *string                    `json:"userName,omitempty"`
+	UserPhoto *string                    `json:"userPhoto,omitempty"`
 }
 
 // GroupDetailsScreenResponse defines model for GroupDetailsScreenResponse.
 type GroupDetailsScreenResponse struct {
-	Expenses  *[]GroupDetailsScreenExpense `json:"expenses,omitempty"`
-	GroupInfo *struct {
-		Id           *string `json:"id,omitempty"`
-		Name         *string `json:"name,omitempty"`
-		Participants *[]struct {
-			Balance   *GroupDetailsScreenBalance `json:"balance,omitempty"`
-			UserId    *string                    `json:"userId,omitempty"`
-			UserName  *string                    `json:"userName,omitempty"`
-			UserPhoto *string                    `json:"userPhoto,omitempty"`
-		} `json:"participants,omitempty"`
-		Photo *string `json:"photo,omitempty"`
-	} `json:"groupInfo,omitempty"`
-	Meta *Pagination `json:"meta,omitempty"`
+	GroupInfo *GroupDetailsScreenGroupInfo `json:"groupInfo,omitempty"`
+	Meta      *Pagination                  `json:"meta,omitempty"`
 }
 
 // GroupRequestBody defines model for GroupRequestBody.

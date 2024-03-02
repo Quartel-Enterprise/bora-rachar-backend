@@ -562,40 +562,44 @@ components:
         meta:
           $ref: '#/components/schemas/Pagination'
         groupInfo:
-          properties:
-            id:
-              type: string
-              example: "id"
-            name:
-              type: string
-              example: "Quartel Otaku"
-            photo:
-              type: string
-              example: "link"
-            participants:
-              type: array
-              items:
-                properties:
-                  userId:
-                    type: string
-                    example: "userId"
-                  userName:
-                    type: string
-                    example: "Pierre"
-                  userPhoto:
-                    type: string
-                    example: "link"
-                  balance:
-                    $ref: '#/components/schemas/GroupDetailsScreenBalance'
+          $ref: '#/components/schemas/GroupDetailsScreenGroupInfo'
+    GroupDetailsScreenGroupInfo:
+      properties:
+        id:
+          type: string
+          example: "id"
+        name:
+          type: string
+          example: "Quartel Otaku"
+        photo:
+          type: string
+          example: "link"
+        participants:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupDetailsScreenParticipant'
         expenses:
           type: array
           items:
             $ref: '#/components/schemas/GroupDetailsScreenExpense'
+    GroupDetailsScreenParticipant:
+      properties:
+        userId:
+          type: string
+          example: "userId"
+        userName:
+          type: string
+          example: "Pierre"
+        userPhoto:
+          type: string
+          example: "link"
+        balance:
+          $ref: '#/components/schemas/GroupDetailsScreenBalance'
     GroupDetailsScreenExpense:
       properties:
         id:
           type: string
-          example: "expenseID"
+          example: "expenseId"
         photo:
           type: string
           example: "link"
@@ -605,60 +609,35 @@ components:
         category:
           $ref: '#/components/schemas/ExpenseCategory'
         createdBy:
+          type: string
+          example: "userId"
+        createdAt:
+          type: string
+          format: date-time
+        payer:
           properties:
             userId:
               type: string
               example: "userId"
-            userName:
-              type: string
-              example: "Pierre"
-            userPhoto:
-              type: string
-              example: "link"
-        createdAt:
-          type: string
-          format: date-time
-        involved:
+            value:
+              type: number
+              example: 19.80
+        borrowed:
           type: array
           items:
             properties:
               userId:
                 type: string
                 example: "userId"
-              userName:
-                type: string
-                example: "Pierre"
-              userPhoto:
-                type: string
-                example: "link"
-              balance:
+              value:
                 type: number
                 example: 19.80
               isDebtSetted:
                 type: boolean
                 example: true
-        commentary:
-          type: array
-          items:
-            properties:
-              userId:
+              expensePaymentSplitId:
                 type: string
-                example: "userId"
-              userName:
-                type: string
-                example: "Pierre"
-              userPhoto:
-                type: string
-                example: "link"
-              commentaryId:
-                type: string
-                example: "commentaryId"
-              commentary:
-                type: string
-                example: "vou pagar nao hehe"
-              date:
-                type: string
-                format: date-time
+                example: "expensePaymentSplitId"
     ExpenseCategory:
       type: string
       enum:
@@ -666,50 +645,33 @@ components:
         - ENTERTAINMENT
         - FOOD
         - DEFAULT
+    GroupDetailsScreenBalanceAmountToPay:
+      properties:
+        value:
+          type: number
+          example: 9.90
+        payTo:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupDetailsScreenBalanceExpenseSplit'
     GroupDetailsScreenBalance:
       properties:
         amountToPay:
-          properties:
-            value:
-              type: number
-              example: 9.90
-            payTo:
-              type: array
-              items:
-                properties:
-                  userId:
-                    type: string
-                    example: "userId"
-                  userName:
-                    type: string
-                    example: "Pierre"
-                  userPhoto:
-                    type: string
-                    example: "link"
-                  value:
-                    type: number
-                    example: 19.80
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupDetailsScreenBalanceExpenseSplit'
         amountToReceive:
-          properties:
-            value:
-              type: number
-              example: 9.90
-            receiveFrom:
-              type: array
-              items:
-                properties:
-                  userId:
-                    type: string
-                    example: "userId"
-                  userName:
-                    type: string
-                    example: "Pierre"
-                  userPhoto:
-                    type: string
-                    example: "link"
-                  value:
-                    type: number
-                    example: 19.80
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupDetailsScreenBalanceExpenseSplit'
+    GroupDetailsScreenBalanceExpenseSplit:
+      properties:
+        userId:
+          type: string
+          example: "userId"
+        value:
+          type: number
+          example: 19.80
     ExpenseCommentRequestBody:
       required:
         - userId

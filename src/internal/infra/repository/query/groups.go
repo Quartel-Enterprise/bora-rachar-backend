@@ -26,19 +26,34 @@ func GetGroups(userId string, db *sqlx.DB) ([]repository_model.Group, error) {
 	return groups, err
 }
 
-func GetParticipants(groupId string, db *sqlx.DB) ([]repository_model.JoinUserAndGroupParticipant, error) {
+func GetParticipants(ctx context.Context, groupId string, db *sqlx.DB) ([]repository_model.JoinUserAndGroupParticipant, error) {
 	var participants []repository_model.JoinUserAndGroupParticipant
 
 	var query = "SELECT * from `group_participant` g \n" +
 		"INNER JOIN `user` u  ON g.user_id = u.id\n" +
 		"where g.group_id = ? and g.deleted_at is null;"
-	err := db.Unsafe().Select(&participants, query, groupId)
+	err := db.Unsafe().SelectContext(ctx, &participants, query, groupId)
 
 	if err != nil {
 		return nil, err
 	}
 
 	return participants, nil
+}
+
+func GetGroup(ctx context.Context, groupId string, db *sqlx.DB) (repository_model.Group, error) {
+	var group repository_model.Group
+
+	var query = "SELECT * from `group` \n" +
+		"WHERE  id = ? and deleted_at is null;"
+
+	err := db.Unsafe().GetContext(ctx, &group, query, groupId)
+
+	if err != nil {
+		return repository_model.Group{}, errors.New(fmt.Sprintf("error when getting group: %s", err))
+	}
+
+	return group, err
 }
 
 func UpdateGroup(ctx context.Context, groupId string, name string, avatar string, db *sqlx.DB) error {

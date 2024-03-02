@@ -12,7 +12,7 @@ import (
 
 func GetTotalAmountToPay(ctx context.Context, db *sqlx.DB, userId string) (float32, error) {
 	var amount float32
-	var query = "SELECT COALESCE(SUM(value),0) from expense_payment_split WHERE is_debt_settled = false AND user_id = ?;"
+	var query = "SELECT COALESCE(SUM(value),0) from expense_payment_split WHERE is_debt_settled = false AND user_id = ? and deleted_at is null;"
 
 	if err := db.GetContext(ctx, &amount, query, userId); err != nil {
 		return 0, errors.New(fmt.Sprintf("error when obtaining total payable: %s", err))
@@ -23,13 +23,27 @@ func GetTotalAmountToPay(ctx context.Context, db *sqlx.DB, userId string) (float
 
 func GetTotalAmountToReceive(ctx context.Context, db *sqlx.DB, userId string) (float32, error) {
 	var amount float32
-	var query = "SELECT COALESCE(SUM(eps.value),0) from expense e INNER JOIN expense_payment_split eps ON e.id  = eps.expense_id where eps.is_debt_settled = FALSE AND e.payer = ?;"
+	var query = "SELECT COALESCE(SUM(eps.value),0) from expense e INNER JOIN expense_payment_split eps ON e.id  = eps.expense_id where eps.is_debt_settled = FALSE AND e.payer = ? and eps.deleted_at is null;"
 
 	if err := db.GetContext(ctx, &amount, query, userId); err != nil {
 		return 0, errors.New(fmt.Sprintf("error getting total receivable: %s", err))
 	}
 
 	return amount, nil
+}
+
+func GetExpensePaymentSplitNoSettle(ctx context.Context, db *sqlx.DB, groupId string) ([]repository_model.JoinExpensePaymentSplitAndExpense, error) {
+	var response []repository_model.JoinExpensePaymentSplitAndExpense
+	var query = "SELECT e.id as 'expense_id', e.value as 'expense_value',e.value as 'expense_value', eps.value as 'split_value', e.*, eps.* from expense e\n" +
+		"INNER JOIN expense_payment_split eps ON e.id = eps.expense_id\n" +
+		"where e.group_id = ? and eps.deleted_at is null and eps.is_debt_settled = false\n" +
+		"ORDER by e.created_at;"
+
+	if err := db.Unsafe().SelectContext(ctx, &response, query, groupId); err != nil {
+		return nil, errors.New(fmt.Sprintf("error getting total receivable: %s", err))
+	}
+
+	return response, nil
 }
 
 func CreatExpenseWithPaymentSplit(ctx context.Context, db *sqlx.DB, userId string, expense repository_model.Expense, paymentSplit []repository_model.ExpensePaymentSplit) error {
