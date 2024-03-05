@@ -13,7 +13,7 @@ services:
         - MYSQL_PASSWORD=${MYSQL_PASSWORD}
         - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
-      - "./resource/database-setup.sql:/docker-entrypoint-initdb.d/a-database-setup.sql"
-      - "./resource/data.sql:/docker-entrypoint-initdb.d/b-data.sql"
+      - "./src/main/resources/migrationdb/database-setup.sql:/docker-entrypoint-initdb.d/a-database-setup.sql"
+      - "./src/main/resources/migrationdb/data.sql:/docker-entrypoint-initdb.d/b-data.sql"
     ports:
       - "${MYSQL_PORT}:3306"
