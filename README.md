@@ -6,3 +6,8 @@ comando para subir banco de dados local utilizando docker:
 docker-compose down -v
 docker-compose up -d
 ```
+
+link swagger
+```
+http://localhost:8080/swagger-ui.html
+```
